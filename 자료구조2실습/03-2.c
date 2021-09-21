@@ -9,7 +9,6 @@
 #include <stdlib.h>
 
 int main() {
-	// 먼저 파일로부터 읽어 데이터 개수를 구하고
 	FILE* fp;
 	int* treeArr = NULL;
 	int i, tmp, cnt = 1;
@@ -19,12 +18,12 @@ int main() {
 		fprintf(stderr, "파일 읽기 실패 \n");
 		exit(1);
 	}
-
+	// 파일로부터 읽어 전체 데이터의 개수 구하기
 	while (!feof(fp)) {
 		fscanf(fp, "%d", &tmp);
 		cnt++;
 	}
-	
+
 	// (정수 데이터 개수 + 1 )만큼 배열 동적 할당
 	treeArr = (int*)malloc(cnt * sizeof(int));
 	rewind(fp);
@@ -34,7 +33,7 @@ int main() {
 		fscanf(fp, "%d", &treeArr[i]);
 
 	/*
-		노드 i의 부모 노드덱스 = i / 2
+		노드 i의 부모 노드 인덱스 = i / 2
 		노드 i의 왼쪽 자식 노드 인덱스 = 2i
 		노드 i의 오른쪽 자식 노드 인덱스 = 2i + 1
 	*/

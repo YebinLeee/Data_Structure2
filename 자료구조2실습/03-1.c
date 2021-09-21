@@ -24,6 +24,7 @@ typedef struct ListNode {
 	struct ListNode* link;
 }ListNode;
 
+void error(char* message);
 ListNode* insert_first(ListNode* head, ListNode* new_node);
 ListNode* search_delete(ListNode* head, int key);
 void print_list(ListNode* head);
@@ -31,42 +32,46 @@ void clear(ListNode* head);
 
 int main() {
 	FILE* fp;
-	ListNode* head = NULL;
-	Student tmp;
-	int id;
-	char name[20]; // 임시 문자열
-	char menu; // i: insert, d: 삭제, p: 리스트 출력
+	ListNode* head = NULL, * new_node = NULL; // 리스트 head 포인터, 새 노드
+	Student tmp;		// 임시 학생 구조체
+	int id;				// 삭제하고자 하는 학생의 학번
+	char name[20];		// 임시 문자열
+	char menu;			// i: insert, d: 삭제, p: 리스트 출력
 
 	fp = fopen("data.txt", "rt");
-	if (fp == NULL) {
-		printf("파일 열기 실패 \n");
-		exit(1);
-	}
+	if (fp == NULL) error("파일 열기 실패");
 
 	while (!feof(fp)) {
-		fscanf(fp, "%c", &menu);
-		// 파일의 데이터 마지막에는 enter 삽입되어야 함
+		fscanf(fp, "%c", &menu);	// 동작할 메뉴 값 읽기
 
-		if (menu == 'i') { // 학생 데이터 삽입
+		if (menu == 'i') {			// 학생 데이터 삽입
 			fscanf(fp, "%d %s %d %lf", &tmp.id, name, &tmp.total, &tmp.height);
 
 			ListNode* new_node = (ListNode*)malloc(sizeof(ListNode));	// 새로운 노드 동적 할당
-			new_node->data = tmp;										// 데이터 필드에 tmp 구조체 대입
-			new_node->data.name = (char*)malloc(sizeof(name));			// name 데이터 필드에 메모리 동적 할당
-			strcpy(new_node->data.name, name);							// name 문자열을 name 필드에 복사
+			if (new_node == NULL) error("새로운 노드 동적 할당 실패");
+			else {
+				new_node->data = tmp;									// 데이터 필드에 tmp 구조체 대입
+				new_node->data.name = (char*)malloc(sizeof(name));		// name 데이터 필드에 메모리 동적 할당
+				strcpy(new_node->data.name, name);						// name 문자열을 name 필드에 복사
 
-			head = insert_first(head, new_node);	// 생성된 새로운 노드를 리스트의 처음에 삽입
+				head = insert_first(head, new_node);	// 생성된 새로운 노드를 리스트의 처음에 삽입
+			}
 		}
 		else if (menu == 'd') {		// 학번 검색하여 해당 학생 정보 삭제
 			fscanf(fp, "%d", &id);	// 탐색할 id값
 			head = search_delete(head, id);
 		}
-		else if (menu == 'p') // 리스트 전체 출력
+		else if (menu == 'p')		// 리스트 전체 출력
 			print_list(head);
 	}
 
-	clear(head);	// 메모리의 전체 노드 해제
+	clear(head);	// 리스트의 전체 노드 메모리 해제
 	fclose(fp);		// 파일 닫기
+}
+
+void error(char* message) {
+	fprintf(stderr, "%s \n", message);
+	exit(1);
 }
 
 // 새로운 노드를 리스트의 처음에 삽입
