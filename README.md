@@ -304,6 +304,7 @@ typedef struct TreeNode {
 	
 
 ```C
+
 // 중위 후속자를 찾는 함수
 TreeNode* find_successor(TreeNode* p) {
 	TreeNode* q = p->right; // p의 오른쪽 포인터
@@ -313,7 +314,8 @@ TreeNode* find_successor(TreeNode* p) {
 
 	// 오른쪽 자식이면 다시 가장 왼쪽 노드로 이동
 	while (q->left != NULL)
-		return q->left;
+		q = q->left;
+	return q;
 }
 
 // 스레드 중위 순회
