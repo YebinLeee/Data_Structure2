@@ -281,8 +281,61 @@ int calc_dir_size(TreeNode* root) {
 </details>
 	
 	
-
+<br>
 <hr>
+<br>
+	
+## 스레드 이진 트리 (Threaded Binary Tree)
+	
+### 스레드 이진 트리의 구조체
+
+```C
+typedef struct TreeNode {
+	int data;
+	struct TreeNode* left, * right;
+	int is_thread; // 스레드이면 True
+}TreeNode;
+```
+	
+<br>
+
+<details>
+	<summary> 스레드 중위 순회 </summary>
+	
+
+```C
+// 중위 후속자를 찾는 함수
+TreeNode* find_successor(TreeNode* p) {
+	TreeNode* q = p->right; // p의 오른쪽 포인터
+	// 오른쪽 포인터가 NUL이거나 스레드이면 오른쪽 포인터를 반환
+	if (q == NULL || p->is_thread == TRUE)
+		return q;
+
+	// 오른쪽 자식이면 다시 가장 왼쪽 노드로 이동
+	while (q->left != NULL)
+		return q->left;
+}
+
+// 스레드 중위 순회
+void thread_inorder(TreeNode* t) {
+	TreeNode* q;
+
+	q = t;
+	while (q->left)		// 가장 왼쪽 노드로 이동
+		q = q->left;
+	do {
+		printf("%c -> ", q->data);	// 데이터 출력
+		q = find_successor(q);		// 후속자 함수 호출
+	} while (q);
+}
+
+```
+
+</details>
+	
+<br>
+<hr>
+<br>
 	
 ## 이진 탐색 트리 (Binary Search Tree)
 	
