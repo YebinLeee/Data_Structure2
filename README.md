@@ -281,3 +281,137 @@ int calc_dir_size(TreeNode* root) {
 </details>
 	
 	
+
+<hr>
+	
+## 이진 탐색 트리 (Binary Search Tree)
+	
+### 탐색
+	
+<details>
+	<summary> 1. 순환적인 탐색 함수 </summary>
+	
+```C
+// 순환적 탐색 함수
+TreeNode* search(TreeNode* node, int key) {
+	TreeNode* p = node;
+
+	if (node == NULL) return NULL;  // 탐색 실패한 경우(마지막 노드까지 도달)
+
+	if (key == node->data) return node; // 탐색 성공한 경우 해당 노드 주소 반환
+	else if (key > node->data)
+		search(node->right, key);
+	else
+		search(node->left, key);
+}	
+```
+	
+</details>
+	
+
+<details>
+	<summary> 2. 반복적인 탐색 함수 </summary>
+
+```C
+// 반복적 탐색 함수
+TreeNode* search2(TreeNode* node, int key) {
+	while (node != NULL) {
+		if (key == node->data)return node; // 탐색 성공한 경우 해당 노드 주소 반환
+		else if (key < node->data)
+			node = node->left;
+		else
+			node = node->right;
+	}
+	return NULL; // 탐색에 실패한 경우 NULL반환
+}
+```
+	
+</details>
+
+### 삽입
+	
+<details>
+	<summary> 탐색 후 삽입 </summary>
+	
+```C
+// 트리의 새로운 노드 동적 할당
+TreeNode* new_node(int item) {
+	TreeNode* temp = (TreeNode*)malloc(sizeof(TreeNode));
+	temp->data = item;
+	temp->left = temp->right = NULL;
+	return temp;
+}
+
+// 탐색 후 특정 위치에 새로운 key를 갖는 노드 삽입
+TreeNode* insert_node(TreeNode* node, int key) {
+	
+	// 트리가 공백이면 새로운 노드를 반환
+	if (node == NULL)return new_node(key);
+	
+	if (key < node->data)
+		node->left = insert_node(node->left, key);
+	else if (key > node->data)
+		node->right = insert_node(node->right, key);
+
+	// 변경된 루트 포인터 반환
+	return node;
+}
+```
+	
+</details>
+	
+	
+### 삭제
+
+<details>	
+	<summary> 탐색 후 삭제 </summary>
+	
+```C
+
+// 가장 왼쪽 단말 노드 탐색
+TreeNode* min_value_node(TreeNode* node) {
+	TreeNode* current = node;
+
+	while (current->left != NULL)
+		current = current->left;
+
+	return current;
+}
+
+// 노드 탐색 후 삭제
+TreeNode* delete_node(TreeNode* root, int key) {
+	if (root == NULL) return root;
+
+	// 탐색
+	if (key < root->data)
+		root->left = delete_node(root->left, key);
+	else if (key > root->data)
+		root->right = delete_node(root->right, key);
+	// 탐색 성공한 경우 (key==root->data)
+	else {
+		// 왼쪽 자식 노드가 없는 경우 - 오른쪽 자식 노드 연결
+		if (root->left == NULL) {
+			TreeNode* temp = root->right;
+			free(root);
+			return temp;
+		}
+		// 오른쪽 자식 노드가 없는 경우 - 왼쪽 자식 노드 연결
+		else if (root->right == NULL) {
+			TreeNode* temp = root->left;
+			free(root);
+			return temp;
+		}
+		// 세번째 경우
+		// 오른쪽 서브트리에서 가장 왼쪽 단말 노드 탐색
+		TreeNode* temp = min_value_node(root->right);
+
+		// 중외 순회시 후계 노드 복사
+		root->data = temp->data;
+		// 중외 순회시 후계 노드 삭제
+		root->right = delete_node(root->right, temp->data);
+	}
+	return root;
+}
+```
+	
+</details>
