@@ -226,6 +226,22 @@ int get_node_count(TreeNode* node) {
 }	
 ```
 </details>
+
+<details>
+	<summary> 높이, 레벨 구하기 </summary>
+
+```C
+// 트리 높이 구하기 (왼쪽 서브트리, 오른쪽 서브트리 중 더 높은 값)
+int get_height(TreeNode* node) {
+	int height = 0;
+
+	if (node != NULL)
+		height = 1 + max(get_height(node->left), get_height(node->right));
+	return height;
+}
+```
+	
+</details>
 	
 <details>
 	<summary> 단말 노드의 개수 </summary>
