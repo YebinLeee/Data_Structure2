@@ -387,7 +387,7 @@ TreeNode* search2(TreeNode* node, int key) {
 ### 삽입
 	
 <details>
-	<summary> 탐색 후 삽입 </summary>
+	<summary> 1. 순환적인 삽입 </summary>
 	
 ```C
 // 트리의 새로운 노드 동적 할당
@@ -416,6 +416,39 @@ TreeNode* insert_node(TreeNode* node, int key) {
 	
 </details>
 	
+<details>
+	<summary> 2. 반복적인 삽입 </summary>
+	
+```C
+// 노드 삽입 (반복)
+void insert_node_iter(TreeNode** root, int key) {
+	TreeNode* p, * t;	// p: 부모노드, t: 현재노드
+	TreeNode* n;		// n: 새로운 노드
+
+	t = *root;
+	p = NULL;
+	while (t != NULL) {
+		if (key == t->key)return;
+		p = t;
+		if (key < t->key)t = t->left;
+		else t = t->right;
+	}
+
+	// key가 트리 안에 없으므로 삽입
+	n = (TreeNode*)malloc(sizeof(TreeNode));
+	if (n == NULL)return;
+	n->key = key;
+	n->left = n->right = NULL;
+
+	// 부모 노드와 링크 연결
+	if (p != NULL)
+		if (key < p->key)p->left = n;
+		else p->right = n;
+	else *root = n;
+}
+```
+	
+</details>
 	
 ### 삭제
 
