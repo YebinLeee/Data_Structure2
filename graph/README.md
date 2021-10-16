@@ -455,8 +455,13 @@ void dfs_iterative_list(GraphType* g, element v) {
 - 시작 정점으로부터 가까운 정점을 먼저 방문하고 멀리 떨어져 있는 정점을 나중에 방문하는 순회 방법
 - `큐(queue)` 구조에 인접한 정점들 중 방문하지 않은 노드를 삽입하고, 반환한 정점에 대해 다시 인접 정점들을 추가하기를 반복
 - 거리가 d인 정점들을 방문하고, 거리가 (d+1), (d+2) ... 의 순서로 정점들을 방문
-	
 <br>
+	
+시간 복잡도
+- 인접 행렬 탐색 : `O(n^2)`
+- 인접 리스트 탐색 : `O(n+e)`
+<br>
+	
 
 <details>
 	<summary> 큐 구현 </summary>
@@ -521,14 +526,33 @@ void bfs_mat(GraphType* g, int v) {
 	}
 }	
 ```
-
-<details>
-	<summary> </summary>
+<br>
+	
+### 인접 리스트를 이용한 BFS
 
 ```C
+// 인접 리스트를 이용한 너비우선 탐색
+void bfs_list(GraphType* g, int v) {
+	QueueType* q;
+	GraphNode* w;
 	
+	q = (QueueType*)malloc(sizeof(QueueType));
+	init_queue(q);
+	visited[v] = TRUE;
+	printf("%d 방문 -> ", v);
+	enqueue(q, v);
+
+	while (!is_empty(q)) {
+		v = dequeue(q);
+		for (w = g->adj_list[v]; w;w=w->link)
+			if (!visited[w->vertex]) {
+				visited[w->vertex] = TRUE;
+				enqueue(q, w->vertex);
+				printf("%d 방문 -> ", w->vertex);
+			}
+	}
+}
 ```
-</details>
 
 
 
