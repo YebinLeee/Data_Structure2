@@ -320,7 +320,7 @@ void dfs_mat(GraphType* g, int v) {
 	visited[v] = TRUE; // 정점 v의 방문 표시
 	printf("정점 %d -> ", v);
 	
-	for (w = 0;w < g->n;w++)
+	for (w = g->n-1;w >=0;w--)
 		// v에 대해 w가 인접 정점이고, w가 방문하지 않은 노드의 경우
 		if (g->adj_mat[v][w] && !visited[w])
 			dfs_mat(g, w); // 정점 w에서 DFS 시작 (순환)
