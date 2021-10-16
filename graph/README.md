@@ -119,6 +119,23 @@ void insert_edge(GraphType* g, int start, int end) {
 ```
   
 </details>
+
+<details>
+	<summary> 정점의 차수 구하기 </summary>
+	
+- i번째 행의 모든 요소의 값의 합 계산
+	
+```C
+// 정점 v의 차수 구하기
+int get_degree(GraphType* g, int v) {
+	int i, sum = 0;
+	for (i = 0;i < g->n;i++)
+		sum += g->adj_mat[v][i];
+	return sum;
+}
+```
+</details>
+	
 <br>
 
 
@@ -136,6 +153,7 @@ void insert_edge(GraphType* g, int start, int end) {
 <br>
 
 ### 인접 리스트의 추상 데이터 타입
+
 ```C
 #define MAX_VERTICES
 
@@ -172,12 +190,115 @@ void init(GraphType* g) {
 </details>
 
 <details>
-  <summary> </summary>
+  <summary> 정점 삽입 연산</summary>
   
 ```C
-  
+// 정점 삽입 연산
+void insert_vertex(GraphType* g, int v) {
+	if (((g->n) + 1) > MAX_VERTICES) {
+		fprintf(stderr, "그래프: 정저의 개수 초과");
+		return;
+	}
+	g->n++;
+}  
 ```
   
 </details>
+
+<details>
+	<summary> 간선 삽입 연산</summary>
+
+- 새로운 노드를 동적할당 받아 u번 리스트에 v의 정점을 vertex로 하는 노드를 맨 처음에 삽입
+	
+	
+```C
+// 간선(u,v) 삽입 연산
+void insert_edge(GraphType* g, int u, int v) {
+	GraphNode* node;
+	if (u >= g->n || v >= g->n) {
+		fprintf(stderr, "그래프: 정점 번호 오류");
+		return;
+	}
+
+	node = (GraphNode*)malloc(sizeof(GraphNode));
+	node->vertex = v;
+	// 리스트의 맨 처음에 삽입
+	node->link = g->adj_list[u]; // 노드의 링크 필드에 u번째 리스트 주소 삽입
+	g->adj_list[u] = node; // u번째 리스트의 헤더에 node 주소 삽입
+}	
+```
+</details>
+
+<details>
+	<summary> 그래프 메모리 해제 </summary>
+
+- 그래프의 포인터 배열의 각 리스트의 모든 노드의 메모리 해제
+	
+```C
+// 그래프의 모든 메모리 해제
+void destroy_graph(GraphType* g) {
+	GraphNode* p, * next;
+	int v = 0;
+
+	for (v = 0;v < g->n;v++) {
+		p = g->adj_list[v];
+		// 포인터 배열의 각 리스트의 모든 노드들 메모리 해제
+		while (p != NULL) {
+			next = p->link;
+			free(p);
+			p = next;
+		}
+	}
+	free(g); // 그래프 메모리 해제
+}	
+```
+</details>
+
+<details>
+	<summary> 정점 차수 구하기 </summary>
+
+- 리스트의 노드 개수 계산하기
+	
+```C
+// 정점 v의 차수 계산하기
+int get_degree(GraphType* g, int v) {
+	int cnt = 0;
+	GraphNode* p = g->adj_list[v];
+		
+	// v번 리스트의 노드 개수 구하기
+	while (p != NULL) {
+		p = p->link;
+		cnt++;
+	}
+	return cnt;
+}	
+```
+</details>
+<br>
+	
+## 그래프의 탐색
+	
+### 1. 깊이 우선 탐색 (DFS: Depth First Search)
+	
+<br>
+	
+### 2. 넓이 우선 탐색 (BFS: Breadth First Search)
+	
+<details>
+	<summary> </summary>
+
+```C
+	
+```
+</details>
+
+<details>
+	<summary> </summary>
+
+```C
+	
+```
+</details>
+
 
 
