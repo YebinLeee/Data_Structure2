@@ -287,7 +287,11 @@ int get_degree(GraphType* g, int v) {
 <br>
 	
 ## 1. 깊이 우선 탐색 (DFS: Depth First Search)
-
+- DFS 탐색의 두 가지 방법
+	1. 순환 호출
+	2. 명시적 스택
+<br>
+	
 - 시작 정점에서 한 방향으로 계속 가다가 더이상 갈 수 없게 되면 다시 가장 가까운 갈림길로 돌아와서 다른 방향으로 다시 탐색을 진행하기를 반복하는 방법
 - 방문 visited 플래그 표시 (배열 visited: 방문 여부 기록 (FALSE로 초기화, 방문한 경우 TRUE로 변경) )
 - 방문하지 않은 정점을 선택하여 깊이 우선 탐색을 하고, 탐색이 종료되면 인접한 정점들 중 방문이 안 된 정점을 찾아 탐색 하기를 반복
@@ -445,16 +449,42 @@ void dfs_iterative_list(GraphType* g, element v) {
 }
 
 ```
+<br>
 	
-### 2. 넓이 우선 탐색 (BFS: Breadth First Search)
+## 2. 너비 우선 탐색 (BFS: Breadth First Search)
+- 시작 정점으로부터 가까운 정점을 먼저 방문하고 멀리 떨어져 있는 정점을 나중에 방문하는 순회 방법
+- 큐(queue) 구조에 인접한 정점들 중 방문하지 않은 노드를 삽입하고, 반환한 정점에 대해 다시 인접 정점들을 추가하기를 반복
+- 거리가 d인 정점들을 방문하고, 거리가 (d+1), (d+2) ... 의 순서로 정점들을 방문
 	
-<details>
-	<summary> </summary>
+<br>
+
+### 인접 행렬 BFS
 
 ```C
+// 인접 행렬을 이용한 너비 우선 탐색의 구현
+void bfs_mat(GraphType* g, int v) {
+	QueueType* q;
+	int w;
+
+	q = (QueueType*)malloc(sizeof(QueueType));
+	init_queue(q);
 	
+	// 첫 정점
+	enqueue(q, v);
+	visited[v] = TRUE;
+
+	while (!is_empty(q)) {
+		v = dequeue(q);
+		printf("%d 방문 -> ", v);
+		for (w = 0;w < g->n;w++)
+			// v 정점의 인접한 정점 중 방문하지 않은 정점 모두 큐에 삽입
+			if (g->adj_mat[v][w] && !visited[w]) {
+				enqueue(q, w);
+				visited[w] = TRUE; // 삽입할 땐 visited 값을 1로 변경
+			}
+	}
+}	
 ```
-</details>
 
 <details>
 	<summary> </summary>
