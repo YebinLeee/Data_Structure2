@@ -274,8 +274,8 @@ int get_degree(GraphType* g, int v) {
 }	
 ```
 </details>
-<br>
-<hr>
+
+<br><hr><br>
 	
 # 그래프의 탐색
 	
@@ -334,6 +334,104 @@ void dfs_list(GraphType* g, int v) {
 ```
 <br>
 	
+### 명시적 스택 
+
+- 스택에 첫번째 정점을 삽입하는 것으로 시작
+- 스택에서 삭제한 정점에 대해, 해당 정점과 인접한 정점들 중 방문하지 않은 정점을 스택에 모두 삽입
+- 다시 스택에서 정점을 삭제하며 위 과정을 반복 
+<br>
+	
+<details>
+	<summary> 스택 구현 </summary>
+
+```C
+typedef int element;
+typedef struct StackType {
+	int top;
+	element data[MAX_VERTICES];
+}StackType;
+
+void init_stack(StackType* s) {
+	s->top = -1;
+}
+int is_empty(StackType* s) {
+	return (s->top == -1);
+}
+int is_full(StackType* s) {
+	return(s->top == MAX_VERTICES + 1);
+}
+void push(StackType* s, element item) {
+	s->data[++s->top] = item;
+}
+element pop(StackType* s) {
+	return s->data[s->top--];
+}
+
+#define TRUE 1
+#define FALSE 0
+element visited[MAX_VERTICES];
+```
+</details>
+	
+1) 인접 행렬
+	
+```C
+// 명시적 스택(인접행렬)을 이용한 깊이우선 탐색
+void dfs_iterative_mat(GraphType* g, element v) {
+	StackType* s;
+	element w;
+
+	// 스택 생성
+	s = (StackType*)malloc(sizeof(StackType));
+	init_stack(s);
+	
+	push(s, v);
+	while (!is_empty(s)) {
+		v = pop(s);
+		if (!visited[v]) {
+			visited[v] = TRUE;
+			printf("정점 %d -> ", v);
+			// 정점 v에 대하여
+			for (w = 0;w < g->n;w++) {
+				// 인접한 모든 정점들 중 방문하지 않은 정점은 스택에 삽입
+				if (g->adj_mat[v][w] && !visited[w])
+					push(s, w);
+			}
+		}
+	}
+	free(s);
+}
+```
+<br>
+
+2. 인접 리스트
+	
+```C
+// 명시적 스택(인접 리스트)를 이용한 깊이우선 탐색 구현
+void dfs_iterative_list(GraphType* g, element v) {
+	StackType* s;
+	GraphNode* w;
+
+	// 스택 생성
+	s = (StackType*)malloc(sizeof(StackType));
+	init_stack(s);
+
+	push(s, v); // 첫번째 요소 삽입
+	while (!is_empty(s)) {
+		v = pop(s);// 
+		if (!visited[v]) { // pop한 v가 방문하지 않은 정점이라면
+			visited[v] = TRUE; // TRUE로 변경
+			printf("정점 %d -> ", v);
+			// v 정점 리스트에 대해 모든 정점들 방문하며
+			for (w = g->adj_list[v];w;w = w->link)
+				if (!visited[w->vertex]) // 방문하지 않은 정점을
+					push(s, w->vertex); // 스택에 삽입 하여 dfs 시작
+		}
+	}
+	free(s);
+}
+
+```
 	
 ### 2. 넓이 우선 탐색 (BFS: Breadth First Search)
 	
