@@ -453,12 +453,48 @@ void dfs_iterative_list(GraphType* g, element v) {
 	
 ## 2. 너비 우선 탐색 (BFS: Breadth First Search)
 - 시작 정점으로부터 가까운 정점을 먼저 방문하고 멀리 떨어져 있는 정점을 나중에 방문하는 순회 방법
-- 큐(queue) 구조에 인접한 정점들 중 방문하지 않은 노드를 삽입하고, 반환한 정점에 대해 다시 인접 정점들을 추가하기를 반복
+- `큐(queue)` 구조에 인접한 정점들 중 방문하지 않은 노드를 삽입하고, 반환한 정점에 대해 다시 인접 정점들을 추가하기를 반복
 - 거리가 d인 정점들을 방문하고, 거리가 (d+1), (d+2) ... 의 순서로 정점들을 방문
 	
 <br>
 
-### 인접 행렬 BFS
+<details>
+	<summary> 큐 구현 </summary>
+	
+```C
+typedef int element;
+#define MAX_QUEUE_SIZE 10
+
+typedef struct QueuType {
+	element queue[MAX_QUEUE_SIZE];
+	int front, rear;
+}QueueType;
+void init_queue(QueueType* q) {
+	q->front = q->rear = 0;
+}
+int is_empty(QueueType* q) { return q->front == q->rear; }
+int is_full(QueueType* q) { return ((q->rear + 1) % MAX_QUEUE_SIZE == q->front); }
+void enqueue(QueueType* q, element item) {
+	if (is_full(q)) {
+		fprintf(stderr, "큐가 포화 상태 \n");
+		exit(1);
+	}
+	q->rear = (q->rear + 1) % MAX_QUEUE_SIZE;
+	q->queue[q->rear] = item;
+}
+element dequeue(QueueType* q) {
+	if (is_empty(q)) {
+		fprintf(stderr, "큐가 공백 상태 \n");
+		exit(1);
+	}
+	q->front = (q->front + 1) % MAX_QUEUE_SIZE;
+	return q->queue[q->front];
+}
+```
+</details>
+<br>
+	
+### 인접 행렬을 이용한 BFS
 
 ```C
 // 인접 행렬을 이용한 너비 우선 탐색의 구현
