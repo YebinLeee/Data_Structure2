@@ -275,12 +275,65 @@ int get_degree(GraphType* g, int v) {
 ```
 </details>
 <br>
+<hr>
 	
-## 그래프의 탐색
+# 그래프의 탐색
 	
-### 1. 깊이 우선 탐색 (DFS: Depth First Search)
+## 1. 깊이 우선 탐색 (DFS: Depth First Search)
+
+- 시작 정점에서 한 방향으로 계속 가다가 더이상 갈 수 없게 되면 다시 가장 가까운 갈림길로 돌아와서 다른 방향으로 다시 탐색을 진행하기를 반복하는 방법
+- 방문 visited 플래그 표시 (배열 visited: 방문 여부 기록 (FALSE로 초기화, 방문한 경우 TRUE로 변경) )
+- 방문하지 않은 정점을 선택하여 깊이 우선 탐색을 하고, 탐색이 종료되면 인접한 정점들 중 방문이 안 된 정점을 찾아 탐색 하기를 반복
+- backtracking -> `순환 알고리즘` 사용
+<br>
+	
+### 1) 인접 행렬을 이용한 DFS
+
+### 순환 호출
+- adj_mat[v][u] 값이 1이고, visited[w] 가 FALSE라면 깊이 우선 탐색 진행
+	
+```C
+#define TRUE 1
+#define FALSE 0
+int visited[MAX_VERTICES]; // 0(FALSE) 초기값
+
+// 인접 행렬로 표현된 그래프에 대한 깊이 우선 탐색
+void dfs_mat(GraphType* g, int v) {
+	int w;
+	visited[v] = TRUE; // 정점 v의 방문 표시
+	printf("정점 %d -> ", v);
+	
+	for (w = 0;w < g->n;w++)
+		// v에 대해 w가 인접 정점이고, w가 방문하지 않은 노드의 경우
+		if (g->adj_mat[v][w] && !visited[w])
+			dfs_mat(g, w); // 정점 w에서 DFS 시작 (순환)
+}
+
+```
 	
 <br>
+	
+### 2) 인접 리스트를 이용한 DFS
+- adj_list[v] 리스트의 노드를 방문하며 인접 정점을 탐색하며, 노드의 정점 w에 대해 visited[w]가 FALSE라면 깊이 우선 탐색 진행
+	
+```C
+#define TRUE 1
+#define FALSE 0
+int visited[MAX_VERTICES];
+
+// 인접 리스트로 표현된 그래프에 대한 깊이 우선 탐색
+void dfs_list(GraphType* g, int v) {
+	GraphNode* w;
+	visited[v] = TRUE;
+	printf("정점 %d -> ", w);
+	// 인접 정점 탐색
+	for (w = g->adj_list[v];w;w = w->link)
+		if (!visited[w->vertex])
+			dfs_list(g, w);	// 정점 w에서 DFS 새로 시작
+}
+```
+<br>
+	
 	
 ### 2. 넓이 우선 탐색 (BFS: Breadth First Search)
 	
