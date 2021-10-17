@@ -304,7 +304,7 @@ void insert_min_heap(HeapType* h, element item) {
 	int i;					
 	i = ++(h->heap_size);
 
-	while ((i != 1) && (item.avail > h->heap[i / 2].avail)) {
+	while ((i != 1) && (item.avail < h->heap[i / 2].avail)) {
 		h->heap[i] = h->heap[i / 2];
 		i /= 2;						
 	}
