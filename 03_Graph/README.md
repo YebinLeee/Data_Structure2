@@ -320,7 +320,7 @@ void dfs_mat(GraphType* g, int v) {
 	visited[v] = TRUE; // 정점 v의 방문 표시
 	printf("정점 %d -> ", v);
 	
-	for (w = g->n-1;w >=0;w--)
+	for (w = 0;w <g->n;w++)
 		// v에 대해 w가 인접 정점이고, w가 방문하지 않은 노드의 경우
 		if (g->adj_mat[v][w] && !visited[w])
 			dfs_mat(g, w); // 정점 w에서 DFS 시작 (순환)
@@ -409,7 +409,7 @@ void dfs_iterative_mat(GraphType* g, element v) {
 			visited[v] = TRUE;
 			printf("정점 %d -> ", v);
 			// 정점 v에 대하여
-			for (w = 0;w < g->n;w++) {
+			for (w = g->n-1;w >=0;w--) {
 				// 인접한 모든 정점들 중 방문하지 않은 정점은 스택에 삽입
 				if (g->adj_mat[v][w] && !visited[w])
 					push(s, w);
