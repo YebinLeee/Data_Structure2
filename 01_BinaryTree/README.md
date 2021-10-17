@@ -42,11 +42,19 @@
 <br>
 
 - 완전 이진트리(complete binary tree) : 높이가 k일때, 레벨 1부터 (k-1)까지는 노드가 모두 채워져 있으며, 마지막 레벨 k에서는 왼쪽부터 오른쪽으로 노드가 순서대로 채워져 있는 이진 트리
-
-
 <br>
 
+### 이진 트리의 표현
+1. 배열 표현법
+	- 저장하고자 하는 이진 트리를 완전 이진 트리라 가정하고, 이진 트리의 깊이가 k일때, (2^k-1) 개의 공간 연속적으로 할당하여 번호대로 노드들 저장
+		- 부모 노드 인덱스 = (자식노드 인덱스)/2
+		- 왼쪽 자식 노드인덱스 = (부모노드 인덱스)*2
+		- 오른쪽 자식 노드 인덱스 = (부모노드 인덱스)*2 + 1
+	- 배열의 단점: 완전 이진트리가 아닌 일반적인 이진트리의 경우 기억공간의 낭비가 심하며, 데이터의 삽입/삭제 시 비효율적
+2. 링크 표현법
+	- 노드 구조체 (데이터 필드, 왼쪽/오른쪽 자식 노드 링크 필드)
 
+<br>
 
 ### 이진 트리 노드의 구조체
 
@@ -58,10 +66,23 @@ typedef struct TreeNode {
 }TreeNode;
 
 ```
+<br>
+
+## 이진 트리의 순회
+- 순회(tranversal) : 이진트리에 속하는 모든 노드를 한 번씩 방문하여 노드가 가지고 있는 데이터를 목적에 맞기 처리하는 것
+- 순회의 방법 : 루트(V) 방문 왼쪽 서브트리(L)과 오른쪽 서브트리(R) 방문의 순서에 따라
+	1. `전위 순회(VLR, preorder traversal)` : 루트노드 -> 왼쪽 서브트리 -> 오른쪽 서브트리 
+	2. `중위 순회(VLR, inorder raversal)` : 왼쪽 서브트리 -> 루트노드 -> 오른쪽 서브트리
+	3. `후위 순회(LRV, postorder traversal)` : 왼쪽 서브트리 -> 오른쪼 서브트리 -> 루트노드
+<br>
 <details>
- 
   <summary> 순환을 이용한 순회 (전위, 중위, 후위) </summary>
-  
+	
+- 트리의 루트를 매개변수로 하여 왼쪽 또는 오른쪽 서브트리를 방문
+- 서브트리의 루트 노드 포인터를 함수의 매개변수로 전달
+- 노드를 방문한다는 의미는 노드의 자료를 출력하는 것으로 정의
+<br>
+	
 ```C
 // 중위 순회
 void inorder(TreeNode* root) {
@@ -96,26 +117,34 @@ void postorder(TreeNode* root) {
   
 <details>
   
-  <summary> 반복을 이용한 순회 (스택 구조) </summary>
+  <summary> 반복을 이용한 순회 -  </summary>
   
+- 왼쪽 노드들이 NULL에 도달할 때까지 스택에 추가되었다가, NULL에 도달하면 스택에서 노드를 하나씩 꺼내어
+- 해당 노드의 오른쪽 노드로 이동
+- 오른쪽 노드들에 대하여 NULL에 도달할 때까지 왼쪽 노드들을 스택에 추가하기를 반복
+<br>
+	
 ```C
 void inorder_iter(TreeNode* root) {
 	while (1) {
+		// NULL에 도달할 때 까지 왼쪽 노드들을 스택에 추가
 		for (;root;root = root->left)
 			push(root);
+		// 스택에서 하나씩 삭제되어 
 		root = pop();
 		if (!root)break;
+		// 방문한 후 오른쪽 노드로 
 		printf("[%d] ", root->data);
 		root = root->right;
 	}
 }
  ```
-  
+<br>
   
 Stack의 push, pop 연산
   
 ```C
-  
+#define SIZE 100
 int top = -1;
 TreeNode* stack[SIZE];
 
@@ -136,9 +165,13 @@ TreeNode* pop() {
 </details>
 		
 <details>
+  <summary> 레벨 순회 (Level Order) - 큐 구조 </summary>
+ 
+- 레벨이 1인 루트노드부터, 각 노드를 레벨 순으로 검사
+- 동일한 레벨의 경우 좌에서 우로 방문
+- 큐에 있는 노드를 꺼내 방문한 다음, 그 노드의 자식 노드를 큐에 삽입하기를 반복
+<br>
 	
-  <summary> 레벨 순회 (큐 구조) </summary>
-  
   
 ```C
 void level_order(TreeNode* ptr) {
