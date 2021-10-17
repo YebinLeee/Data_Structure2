@@ -466,8 +466,7 @@ void thread_inorder(TreeNode* t) {
 	3. 주어진 키값이 루트노드의 키값보다 크면, 루트노드의 오른쪽 자식을 기준으로 탐색 다시 시작
 <br>
 
-<details>
-	<summary> 1. 순환적인 탐색 함수 </summary>
+1. 순환적인 탐색 함수 
 	
 ```C
 // 순환적 탐색 함수
@@ -484,11 +483,9 @@ TreeNode* search(TreeNode* node, int key) {
 }	
 ```
 	
-</details>
+<br>
 	
-
-<details>
-	<summary> 2. 반복적인 탐색 함수 </summary>
+2. 반복적인 탐색 함수
 
 ```C
 // 반복적 탐색 함수
@@ -503,8 +500,7 @@ TreeNode* search2(TreeNode* node, int key) {
 	return NULL; // 마지막까지 도달 - 탐색에 실패하여 NULL반환
 }
 ```
-	
-</details>
+
 <br>
 	
 ### 삽입 연산
@@ -594,7 +590,7 @@ void insert_node_iter(TreeNode** root, int key) {
 	
 <br>
 	
-- 탐색 후 삭제 
+- 1. 순환적인 삭제 연산
 	
 ```C
 // 가장 왼쪽 단말 노드 탐색
@@ -642,5 +638,84 @@ TreeNode* delete_node(TreeNode* root, int key) {
 	return root;
 }
 ```
-	
+<br>
 
+2. 반복적인 삭제 연산
+
+```C
+// 노드 삭제 (반복)
+void delete_iterative(TreeNode** root, int key) {
+	// 탐색 후 삭제
+	// p: 부모
+	// child: 
+	TreeNode* p, * child, * succ, * succ_p, * t;
+
+	// key를 갖는 노드 t 탐색, p는 t의 부모노드
+	p = NULL;
+	t = *root;
+
+	// 먼저 트리에 키 값이 있는지 탐색
+	while (t != NULL && t->key != key) {
+		p = t;
+		t = (key < t->key) ? t->left : t->right;
+	}
+	// 탐색 종료, 
+
+	// 탐색이 종료된 시점에 t가 NULL이면 탐색 실패
+	if (t == NULL) {
+		printf("key is not in the tree \n");
+		return;
+	}
+
+	// 첫번쨰 경우: 단말 노드인 경우
+	if (t->left == NULL && t->right == NULL) {
+		if (p != NULL) {
+			// 부모노드의 자식필드를 NULL로 변경
+			if (p->left == t)
+				p->left = NULL;
+			else p->right = NULL;
+		}
+		else
+			*root = NULL; // 부모노드가 NULL이면 삭제되는 노드가 루트
+	}
+
+	// 두번째 경우: 하나의 자식만 가지는 경우
+	else if ((t->left == NULL) || t->right == NULL) {
+		child = (t->left != NULL) ? t->left : t->right;
+		if (p != NULL) {
+			// 부모를 자식과 연결
+			if (p->left == t) p->left = child;
+			else p->right = child;
+		}
+		else // 부모 노드가 NULL이면 삭제되는 노드가 루트
+			*root = child;
+	}
+	// 세번째 경우: 두개의 자식을 가지는 경우
+	else {
+		printf("두 개 자식 \n\n");
+
+		// 오른쪽 서브트리에서 후계자를 찾는다.
+		succ_p = t;
+		succ = t->right;
+		// 후계자를 찾아 계속 왼쪽으로 이동
+		while (succ->left != NULL) {
+			succ_p = succ;
+			succ = succ->left;
+		}
+
+		// 후속자의 부모와 자식 연결
+		if (succ_p->left = succ)
+			succ_p->left = succ->right;
+		else succ_p->right = succ->right;
+
+		// 후속자가 가진 키 값을 현재 노드에 복사
+		t->key = succ->key;
+		// 원래의 후속자 삭제
+		t = succ;
+	}
+	free(t);
+}
+```
+	
+<br>
+	
