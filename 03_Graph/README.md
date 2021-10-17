@@ -342,7 +342,7 @@ int visited[MAX_VERTICES];
 void dfs_list(GraphType* g, int v) {
 	GraphNode* w;
 	visited[v] = TRUE;
-	printf("정점 %d -> ", w);
+	printf("정점 %d -> ", v);
 	// 인접 정점 탐색
 	for (w = g->adj_list[v];w;w = w->link)
 		if (!visited[w->vertex])
