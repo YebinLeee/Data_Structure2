@@ -359,9 +359,80 @@ int get_leaf_count(TreeNode* node) {
 
 </details>
 	
+<details>
+	<summary> 4. 자식이 하나만 있는 노드의 개수 </summary>
+
+```C
+int get_one_leaf(TreeNode* root) {
+	int cnt = 0;
+	
+	if (root != NULL) {
+		if ((root->left && !root->right) || (!root->left && root->right))
+			return 1;
+		else
+			cnt += get_one_leaf(root->left) + get_one_leaf(root->right);
+	}
+
+	return cnt;
+}	
+```
+</details>
+
+<details>
+	<summary> 5. 노드의 모든 값 더하기</summary>
+
+```C
+int add_node_data(TreeNode* root) {
+	int sum = 0;
+	if (root != NULL) {
+		sum += root->key + add_node_data(root->left) + add_node_data(root->right);
+	}
+	return sum;
+}	
+```
+</details>
 	
 <details>
-	<summary> 4. 파일의 용량 사이즈 구하기 (후위 순회) </summary>
+	<summary> 6. 최대값, 최소값 구하기 </summary>
+
+```C
+int get_max(TreeNode* root) {
+	if (root == NULL) return 0;
+	else if (root->left == NULL && root->right == NULL)
+		return root->key;
+	else 
+		return max(get_max(root->left), get_max(root->right));
+}
+int get_min(TreeNode* root) {
+	if (root == NULL)return 0;
+	else if (root->left == NULL && root->right == NULL)
+		return root->key;
+	else 
+		return min(get_min(root->left), get_min(root->right));
+}	
+```
+</details>
+	
+<details> 
+	<summary> 7. 특정 값보다 작은 수 출력 </summary>
+	
+```C
+void print_ifSmall(TreeNode* root, int value) {
+	if (root != NULL) {
+		print_ifSmall(root->left, value);
+		if (root->key < value)
+			printf("%d ", root->key);
+		print_ifSmall(root->right, value);
+	}
+}
+
+```
+
+</details>
+
+	
+<details>
+	<summary> 8. 파일의 용량 사이즈 구하기 (후위 순회) </summary>
 
 ```C
 
