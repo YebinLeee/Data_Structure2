@@ -112,8 +112,7 @@ void init(HeapType* h) {
 	
 </details>
 	
-<details>
-	<summary> 최대 히프 삽입 연산 </summary>
+### 최대 히프 삽입 연산
 
 - 새로운 노드를 히프의 마지막 노드로 삽입
 - 새로운 노드를 부모 노드들과 키 값을 비교하여 교환하는 과정을 반복
@@ -137,10 +136,9 @@ void insert_max_heap(HeapType* h, element item) {
 }
 ```
 	
-</details>
+<br>
 
-<details>
-	<summary> 최대 히프 삭제 연산 </summary>
+### 최대 히프 삭제 연산 
 	
 - 최대 히프의 경우, 반환할 노드는 루트 노드이다.
 - 빈 루트 노드에, 히프의 마지막 노드를 가져와 자식 중 더 큰 키 값을 가진 노드와 자리를 교환하기를 반복
@@ -178,8 +176,6 @@ element delete_max_heap(HeapType* h) {
 }
 ```
 	
-</details>
-
 <br>
 	
 ## 히프 정렬 (Heap Sort)
@@ -224,20 +220,124 @@ void heap_sort_min(element a[], int n) {
 
 	free(h);
 }
+```
+	
 <br>
-### 머쉰 스케줄링 (Machine Scheduling)
-LPT(Longest Processing Time first) 알고리즘
-	- 동일한 기계 m, 처리해야 하는 작업 n이 있는 상황
-	- 모든 m개의 기계를 풀가동하여 가장 최소의 시간 안에 작업들을 모두 끝내는 알고리즘
-	- 각 작업들을 가장 먼저 사용 가능하게 되는 기계에 할당하는 것
-	- `최소 히프` 사용 : 최소의 종료 시간을 가지는 기계를 삭제하여 자업을 할당하는 알고리즘
-		- 기계의 종료 시간을 최소 히프에 넣고, 최소 히프에서 기계를 꺼내어 그 기계에 작업을 할당
-		- 작업을 할당한 후에는 기계의 종료 시간을 작업 시간만큼 증가시킨 후 다시 최소 히프에 삽입	
+
+## 머쉰 스케줄링 (Machine Scheduling)
+
+### LPT(Longest Processing Time first) 알고리즘
+- 동일한 기계 m, 처리해야 하는 작업 n이 있는 상황
+- 모든 m개의 기계를 풀가동하여 가장 최소의 시간 안에 작업들을 모두 끝내는 알고리즘
+- 각 작업들을 가장 먼저 사용 가능하게 되는 기계에 할당하는 것
+- `최소 히프` 사용 : 최소의 종료 시간을 가지는 기계를 삭제하여 자업을 할당하는 알고리즘
+	- 기계의 종료 시간을 최소 히프에 넣고, 최소 히프에서 기계를 꺼내어 그 기계에 작업을 할당
+	- 작업을 할당한 후에는 기계의 종료 시간을 작업 시간만큼 증가시킨 후 다시 최소 히프에 삽입	
 
 <br>
-	
+
+### LPT 알고리즘 구현
+
+element 구조체
+- 히프의 노드 (기계의 번호, 기계의 작업 종료 시간)
+
 ```C
-	
+typedef struct {
+	int id;		// 기계의 번호
+	int avail;	// 기계가 사용 가능하게 되는 종료 시간 (키값)
+}element;	
 ```
-### 허프만 코드 (Huffman Codes)
+
+<br>
+
+동작 구현
+```C
+#define JOBS 7		// 작업 개수
+#define MACHINES 3	// 기계 개수
+
+int main() {
+	int jobs[JOBS] = { 8,7,6,5,4,2,1 }; // 정렬되어 있다고 가정 (최대 히프를 이용하여 정렬 가능)
+	element m = { 0,0 }; // 기계의 번호, 작업 종료 시간
+	HeapType* h;
+	h = create();
+	init(h);
+
+	// MACHINES 개의 기계를 히프에 삽입 (키 값 = avail)
+	for (int i = 0;i < MACHINES;i++) {
+		m.id = i + 1;
+		m.avail = 0;
+		insert_min_heap(h, m);
+	}
+
+	// 최소 히프에서 기계를 꺼내서 작업을 할당하고, 사용 가능시간을 증가 시킨 후에
+	// 다시 최소 히프에 추가
+	for (int i = 0;i < JOBS;i++) {
+		m = delete_min_heap(h);
+		printf("JOB %d를 시간=%d부터 시간=%d까지 기계 %d번에 할당 \n",
+			i, m.avail, m.avail + jobs[i] - 1, m.id);
+		m.avail += jobs[i];
+		insert_min_heap(h, m); // 다시 최소 히프에 작업 할당한 기계 삽입
+	}
+
+	return 0;
+}
+```
+<br>
+
+<details>
+	<summary> 최소 히프 구현 </summary>
+
+```C
+// 히프 구조체 동적 할당
+HeapType* create() {
+	return (HeapType*)malloc(sizeof(HeapType));
+}
+
+// 히프의 사이즈 초기화
+void init(HeapType* h) {
+	h->heap_size = 0;
+}
+
+// 최소 히프 구현하는 삽입 함수 (작업 할당 후 기계를 다시 삽입)
+void insert_min_heap(HeapType* h, element item) {
+	int i;					
+	i = ++(h->heap_size);
+
+	while ((i != 1) && (item.avail > h->heap[i / 2].avail)) {
+		h->heap[i] = h->heap[i / 2];
+		i /= 2;						
+	}
+	h->heap[i] = item;
+}
+
+// 최소 히프의 루트 노드부터 삭제 (최소 종료 시간을 가진 기계 삭제하여 작업할당)
+element delete_min_heap(HeapType* h) {
+	int parent, child;	
+	element item, temp;	
+
+	item = h->heap[1];	
+	temp = h->heap[(h->heap_size)--];	
+	parent = 1, child = 2;	
+
+	while (child <= h->heap_size) {
+		if ((child < h->heap_size) && (h->heap[child].avail > h->heap[child + 1].avail))
+			child++;
+
+		if (temp.avail < h->heap[child].avail)
+			break;
+
+		h->heap[parent] = h->heap[child];
+		parent = child;		
+		child *= 2;		
+	}
+	h->heap[parent] = temp;	
+	return item;
+}
+
+```
+</details>
+<br>
+	
+	
+## 허프만 코드 (Huffman Codes)
 	
