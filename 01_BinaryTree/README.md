@@ -505,11 +505,17 @@ TreeNode* search2(TreeNode* node, int key) {
 ```
 	
 </details>
-
-### 삽입
+<br>
 	
-<details>
-	<summary> 1. 순환적인 삽입 </summary>
+### 삽입 연산
+1. 삽입 위치 탐색
+	- 같은 키값을 갖는 노드가 없어야 함
+	- 루트의 키값과 비교하며 탐색을 하며, NULL 값에 도달하여 탐색에 실패한 위치가 새로운 노드를 삽입하는 위치 (단말노드로 삽입)
+2. 삽입 연산
+	- 탐색 위치에 새로운 노드 주소 삽입
+<br>
+
+1. 순환적인 삽입
 	
 ```C
 // 트리의 새로운 노드 동적 할당
@@ -536,10 +542,9 @@ TreeNode* insert_node(TreeNode* node, int key) {
 }
 ```
 	
-</details>
-	
-<details>
-	<summary> 2. 반복적인 삽입 </summary>
+<br>
+
+2. 반복적인 삽입 
 	
 ```C
 // 노드 삽입 (반복)
@@ -570,15 +575,28 @@ void insert_node_iter(TreeNode** root, int key) {
 }
 ```
 	
-</details>
+<br>
 	
-### 삭제
-
-<details>	
-	<summary> 탐색 후 삭제 </summary>
+### 삭제 연산
+1. 삭제 노드의 위치 탐색
+2. 삭제 연산
+	1) 삭제하려는 노드가 단말 노드인 경우
+		- 단말 노드의 부모 노드 찾아 부모 노드의 링크필드를 NULL로 만들어 연결을 끊고
+		- 단말노드의 메모리 해제
+	2) 삭제하려는 노드가 왼쪽, 오른쪽 서브 트리 중 하나만 가지고 있는 경우
+		- 자신 노드는 삭제하고, 서브 트리를 자기 노드의 부모 노드로 연결
+	3) 삭제하려는 노드가 두 개의 서브 트리 모두 가지고 있는 경우
+		- 삭제 되는 노드와 가장 값이 비슷한 노드를 후계자로 선택 (중위 순회한 경우, 선행노드 또는 후속노드)
+			- 왼쪽 서브 트리에서 가장 큰 값 (왼쪽 서브트리에서의 가장 오른쪽 노드)
+			- 오른쪽 서브 트리에서 가장 작은 값 (오른쪽 서브트리에서의 가장 왼쪽 노드)
+		- 후계 노드를 복사
+		- 후계 노드 삭제(단말노드이므로 해당 메모리 해제)
+	
+<br>
+	
+- 탐색 후 삭제 
 	
 ```C
-
 // 가장 왼쪽 단말 노드 탐색
 TreeNode* min_value_node(TreeNode* node) {
 	TreeNode* current = node;
@@ -616,15 +634,13 @@ TreeNode* delete_node(TreeNode* root, int key) {
 		// 오른쪽 서브트리에서 가장 왼쪽 단말 노드 탐색
 		TreeNode* temp = min_value_node(root->right);
 
-		// 중외 순회시 후계 노드 복사
+		// 후계 노드 복사 (데이터필드)
 		root->data = temp->data;
-		// 중외 순회시 후계 노드 삭제
+		// 후계 노드 삭제 (단말 노드이므로 메모리 해제)
 		root->right = delete_node(root->right, temp->data);
 	}
 	return root;
 }
 ```
 	
-</details>
 
-	
