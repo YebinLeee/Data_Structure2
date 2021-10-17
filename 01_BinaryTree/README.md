@@ -324,7 +324,7 @@ int get_node_count(TreeNode* node) {
 </details>
 
 <details>
-	<summary> 높이, 레벨 구하기 </summary>
+	<summary> 2. 높이, 레벨 구하기 </summary>
 
 ```C
 // 트리 높이 구하기 (왼쪽 서브트리, 오른쪽 서브트리 중 더 높은 값)
@@ -340,7 +340,7 @@ int get_height(TreeNode* node) {
 </details>
 	
 <details>
-	<summary> 단말 노드의 개수 </summary>
+	<summary> 3. 단말 노드의 개수 </summary>
 
 ```C
 // 단말 노드 개수 (왼쪽/오른쪽 자식이 동시에 NULL인 경우)
@@ -361,7 +361,7 @@ int get_leaf_count(TreeNode* node) {
 	
 	
 <details>
-	<summary> 파일의 용량 사이즈 구하기 (후위 순회) </summary>
+	<summary> 4. 파일의 용량 사이즈 구하기 (후위 순회) </summary>
 
 ```C
 
@@ -404,9 +404,10 @@ typedef struct TreeNode {
 
 ### 스레드 중위 순회
 `find_successor 함수` : 오른쪽 자식 링크에 저장된 값 반환
-	- is_thread가 TRUE인 경우 중위 후속자(오른쪽 자식) 반환
-	- 또는 오른쪽 자식이 NULL 인 경우, NULL 반환 (전체 순회 종료)
-	- is_thread가 FALSE인 경우, 또는 오른쪽 노드가 존재하는 경우, 다시 왼쪽 서브트리로 이동
+- is_thread가 TRUE인 경우 중위 후속자(오른쪽 자식) 반환
+- 또는 오른쪽 자식이 NULL 인 경우, NULL 반환 (전체 순회 종료)
+- is_thread가 FALSE인 경우, 또는 오른쪽 노드가 존재하는 경우, 다시 왼쪽 서브트리로 이동
+	
 	
 <br>
 	
@@ -446,9 +447,25 @@ void thread_inorder(TreeNode* t) {
 <br>
 	
 # 이진 탐색 트리 (Binary Search Tree)
+- 이진 트리 기반의 탐색을 위한 자료 구조
+- 각 레코드의 고유한 주요 키(primary key) 값을 이용해 레코드를 식별하여 탐색 작업 수행
+<br>
 	
-### 탐색
+### 이진 탐색 트리의 정의
+1. 모든 원소의 키는 유일한 키를 가진다.
+2. 왼쪽 서브트리 키들은 루트 키보다 작다.
+3. 오른쪽 서브 트리의 키들은 루트의 키보다 크다.
+4. 왼쪽과 오른쪽 서브트리도 이진 탐색 트리이다.
+
+<br>
 	
+### 탐색 연산
+- 특정한 키 값을 가진 노드를 찾기 위해, 탐색키 값과 루트 노드의 키값을 비교
+	1. 비교한 결과가 같으면 탐색 성공
+	2. 주어진 키값이 루트노드의 키값보다 작으면, 루트노드의 왼쪽 자식을 기준으로 탐색 다시 시작
+	3. 주어진 키값이 루트노드의 키값보다 크면, 루트노드의 오른쪽 자식을 기준으로 탐색 다시 시작
+<br>
+
 <details>
 	<summary> 1. 순환적인 탐색 함수 </summary>
 	
@@ -483,7 +500,7 @@ TreeNode* search2(TreeNode* node, int key) {
 		else
 			node = node->right;
 	}
-	return NULL; // 탐색에 실패한 경우 NULL반환
+	return NULL; // 마지막까지 도달 - 탐색에 실패하여 NULL반환
 }
 ```
 	
