@@ -346,7 +346,7 @@ void dfs_list(GraphType* g, int v) {
 	// 인접 정점 탐색
 	for (w = g->adj_list[v];w;w = w->link)
 		if (!visited[w->vertex])
-			dfs_list(g, w);	// 정점 w에서 DFS 새로 시작
+			dfs_list(g, w->vertex);	// 정점 w에서 DFS 새로 시작
 }
 ```
 <br>
