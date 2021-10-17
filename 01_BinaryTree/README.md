@@ -51,6 +51,8 @@
 		- 왼쪽 자식 노드인덱스 = (부모노드 인덱스)*2
 		- 오른쪽 자식 노드 인덱스 = (부모노드 인덱스)*2 + 1
 	- 배열의 단점: 완전 이진트리가 아닌 일반적인 이진트리의 경우 기억공간의 낭비가 심하며, 데이터의 삽입/삭제 시 비효율적
+<br>
+
 2. 링크 표현법
 	- 노드 구조체 (데이터 필드, 왼쪽/오른쪽 자식 노드 링크 필드)
 
@@ -70,19 +72,22 @@ typedef struct TreeNode {
 
 ## 이진 트리의 순회
 - 순회(tranversal) : 이진트리에 속하는 모든 노드를 한 번씩 방문하여 노드가 가지고 있는 데이터를 목적에 맞기 처리하는 것
-- 순회의 방법 : 루트(V) 방문 왼쪽 서브트리(L)과 오른쪽 서브트리(R) 방문의 순서에 따라
-	1. `전위 순회(VLR, preorder traversal)` : 루트노드 -> 왼쪽 서브트리 -> 오른쪽 서브트리 
-	2. `중위 순회(VLR, inorder raversal)` : 왼쪽 서브트리 -> 루트노드 -> 오른쪽 서브트리
-	3. `후위 순회(LRV, postorder traversal)` : 왼쪽 서브트리 -> 오른쪼 서브트리 -> 루트노드
+- 순회의 방법
+	1. 루트(V) 방문 왼쪽 서브트리(L)과 오른쪽 서브트리(R) 방문의 순서에 따라
+		- `전위 순회(VLR, preorder traversal)` : 루트노드 -> 왼쪽 서브트리 -> 오른쪽 서브트리 
+		- `중위 순회(VLR, inorder raversal)` : 왼쪽 서브트리 -> 루트노드 -> 오른쪽 서브트리
+		- `후위 순회(LRV, postorder traversal)` : 왼쪽 서브트리 -> 오른쪼 서브트리 -> 루트노드
+	2. 레벨 순회
 <br>
-<details>
-  <summary> 순환을 이용한 순회 (전위, 중위, 후위) </summary>
+
+### 순환을 이용한 순회 (전위, 중위, 후위)
 	
 - 트리의 루트를 매개변수로 하여 왼쪽 또는 오른쪽 서브트리를 방문
 - 서브트리의 루트 노드 포인터를 함수의 매개변수로 전달
 - 노드를 방문한다는 의미는 노드의 자료를 출력하는 것으로 정의
 <br>
-	
+
+1. 중위 순회
 ```C
 // 중위 순회
 void inorder(TreeNode* root) {
@@ -92,7 +97,11 @@ void inorder(TreeNode* root) {
 		inorder(root->right);
 	}
 }
-  
+```
+<br>
+	
+2. 전위 순회
+```C
 // 전위 순회
 void preorder(TreeNode* root) {
 	if (root != NULL) {
@@ -101,7 +110,11 @@ void preorder(TreeNode* root) {
 		preorder(root->right);
 	}
 }
-  
+```
+<br>
+	
+3. 후위 순회
+```C
 // 후위 순회
 void postorder(TreeNode* root) {
 	if (root != NULL) {
@@ -111,13 +124,9 @@ void postorder(TreeNode* root) {
 	}
 }
 ```
+<br>
   
-</details>
-  
-  
-<details>
-  
-  <summary> 반복을 이용한 순회 -  </summary>
+### 반복을 이용한 순회 - 스택 구조 
   
 - 왼쪽 노드들이 NULL에 도달할 때까지 스택에 추가되었다가, NULL에 도달하면 스택에서 노드를 하나씩 꺼내어
 - 해당 노드의 오른쪽 노드로 이동
@@ -140,8 +149,9 @@ void inorder_iter(TreeNode* root) {
 }
  ```
 <br>
-  
-Stack의 push, pop 연산
+ 
+<details>
+	<summary> Stack 구현 </summary>
   
 ```C
 #define SIZE 100
@@ -163,9 +173,10 @@ TreeNode* pop() {
 
 	
 </details>
-		
-<details>
-  <summary> 레벨 순회 (Level Order) - 큐 구조 </summary>
+<br>
+	
+	
+### 레벨 순회 (Level Order) : 큐 구조 
  
 - 레벨이 1인 루트노드부터, 각 노드를 레벨 순으로 검사
 - 동일한 레벨의 경우 좌에서 우로 방문
@@ -183,8 +194,10 @@ void level_order(TreeNode* ptr) {
 
 	enqueue(&q, ptr);
 	while (!is_empty(&q)) {
+		// 큐에서 삭제하여 루트 노드 방문
 		ptr = dequeue(&q);
 		printf(" [%d] ", ptr->data);
+		// 루트의 자식 노드 큐에 삽입
 		if (ptr->left)
 			enqueue(&q, ptr->left);
 		if (ptr->right)
@@ -193,9 +206,10 @@ void level_order(TreeNode* ptr) {
 }
 ```
 	
-	
 <br>
-노드 큐 구조
+
+<details>
+	<summary> 노드 큐 구조 </summary>
 	
 ```C
 typedef struct TreeNode {
@@ -246,15 +260,17 @@ element dequeue(QueueType* q) {
 		
 
 <br>
+	
+## 트리의 응용
+	
+### 수식 트리 (expression tree)
+- 산술 연산자 -> 비단말 노드, 피연산자 -> 단말노드
+- 후위 순회 이용 -> 피연산자들 계산 후 전체 수식 계산 가능
+	
+<br>
+	
+- 후위 순회 (순환 구조)
 
-	
-	
-### 수식 계산 트리 
-	
-<details>
-	<summary> 후위 순회 (순환 구조) </summary>
-	
-	
 ```C
 // 수식 계산 함수
 int evaluate(TreeNode* root) {
@@ -265,9 +281,11 @@ int evaluate(TreeNode* root) {
 	if (root->left == NULL && root->right == NULL)
 		return root->data;
 	else {
+		// 왼쪽/오른쪽 서브트리 따라 가며 자식 노드(피연산자) op1, op2에 저장
 		op1 = evaluate(root->left);
 		op2 = evaluate(root->right);
 		printf("%d %c %d 을 계산합니다. \n", op1, root->data, op2);
+		// 루트(연산자) 에 따라 계산
 		switch (root->data) {
 		case '+':
 			return op1 + op2;
@@ -284,14 +302,13 @@ int evaluate(TreeNode* root) {
 	
 ```
 	
-</details>
-	
+
 <br>
 	
 ### 추가 연산
 	
 <details>
-	<summary> 전체 노드의 개수 </summary>
+	<summary> 1. 전체 노드의 개수 </summary>
 	
 ```C
 // 전체 노드의 개수 (루트 노드 + 왼쪽 서브 트리 + 오른쪽 서브트리)
@@ -326,7 +343,7 @@ int get_height(TreeNode* node) {
 	<summary> 단말 노드의 개수 </summary>
 
 ```C
-// 단말 노드 개수 (왼쪽/오른쪽 자식이 동시에 0인 경우)
+// 단말 노드 개수 (왼쪽/오른쪽 자식이 동시에 NULL인 경우)
 int get_leaf_count(TreeNode* node) {
 	int count = 0;
 
@@ -361,14 +378,20 @@ int calc_dir_size(TreeNode* root) {
 </details>
 	
 	
-<br>
-<hr>
-<br>
+<br><br>
 	
 ## 스레드 이진 트리 (Threaded Binary Tree)
+- 이진 트리의 NULL 링크에 중위 순회 시 선행 노드인 중위 선행지(inorder predecessor) 또는 후속 노드인 중위 후속자(inorder successor)을 저장시켜 놓은 트리
+- 순환 호출 또는 스택의 도움 없이 링크(스레드)를 이용하여 순회를 구현한 트리
+	
+<br>
 	
 ### 스레드 이진 트리의 구조체
-
+- is_thread: NULL 링크에 스레드가 저장되어 있는지 구별해주는 태그 필드
+	- `isThread == TRUE` : right 필드가 중위 후속자
+	- `isThread == FALSE` : 오른쪽 자식을 가리키는 포인터
+<br>
+	
 ```C
 typedef struct TreeNode {
 	int data;
@@ -379,16 +402,20 @@ typedef struct TreeNode {
 	
 <br>
 
-<details>
-	<summary> 스레드 중위 순회 </summary>
+### 스레드 중위 순회
+`find_successor 함수` : 오른쪽 자식 링크에 저장된 값 반환
+	- is_thread가 TRUE인 경우 중위 후속자(오른쪽 자식) 반환
+	- 또는 오른쪽 자식이 NULL 인 경우, NULL 반환 (전체 순회 종료)
+	- is_thread가 FALSE인 경우, 또는 오른쪽 노드가 존재하는 경우, 다시 왼쪽 서브트리로 이동
 	
-
+<br>
+	
 ```C
 
 // 중위 후속자를 찾는 함수
 TreeNode* find_successor(TreeNode* p) {
 	TreeNode* q = p->right; // p의 오른쪽 포인터
-	// 오른쪽 포인터가 NUL이거나 스레드이면 오른쪽 포인터를 반환
+	// 오른쪽 포인터가 NULL이거나 스레드이면 오른쪽 포인터를 반환
 	if (q == NULL || p->is_thread == TRUE)
 		return q;
 
@@ -407,13 +434,12 @@ void thread_inorder(TreeNode* t) {
 		q = q->left;
 	do {
 		printf("%c -> ", q->data);	// 데이터 출력
-		q = find_successor(q);		// 후속자 함수 호출
+		q = find_successor(q);		// 후속자 함수 호출 (q가 NULL이면 종료)
 	} while (q);
 }
 
 ```
 
-</details>
 	
 <br>
 <hr>
