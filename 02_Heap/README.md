@@ -226,9 +226,18 @@ void heap_sort_min(element a[], int n) {
 }
 <br>
 ### 머쉰 스케줄링 (Machine Scheduling)
-- LPT(Longest Processing Time first)
+LPT(Longest Processing Time first) 알고리즘
+	- 동일한 기계 m, 처리해야 하는 작업 n이 있는 상황
+	- 모든 m개의 기계를 풀가동하여 가장 최소의 시간 안에 작업들을 모두 끝내는 알고리즘
+	- 각 작업들을 가장 먼저 사용 가능하게 되는 기계에 할당하는 것
+	- `최소 히프` 사용 : 최소의 종료 시간을 가지는 기계를 삭제하여 자업을 할당하는 알고리즘
+		- 기계의 종료 시간을 최소 히프에 넣고, 최소 히프에서 기계를 꺼내어 그 기계에 작업을 할당
+		- 작업을 할당한 후에는 기계의 종료 시간을 작업 시간만큼 증가시킨 후 다시 최소 히프에 삽입	
 
 <br>
 	
+```C
+	
+```
 ### 허프만 코드 (Huffman Codes)
 	
