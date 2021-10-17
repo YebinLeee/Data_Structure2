@@ -182,6 +182,49 @@ element delete_max_heap(HeapType* h) {
 
 <br>
 	
+## 히프 정렬 (Heap Sort)
+- 정렬되어 있지 않은 배열을 차례대로 최대 히프에 추가하여 새로운 히프를 추가하고, 요소를 하나씩 꺼내서 배열에 차례대로, 혹은 역순으로 저장하여 정렬 완성
+	1. 오름차순 정렬: 배열의 끝에서부터 저장
+	2. 내림차순 정렬: 배열의 처음부터 저장
+- 최대 히프를 이용한 정렬의 시간 복잡도 : `O(nlog2n)`
+<br>
+
+- 오름차순 정렬
+```C
+void heap_sort(element a[], int n) {
+	int i;
+	HeapType* h;
+
+	h = create();
+	init(h);
+
+	for (i = 0;i < n;i++)
+		insert_max_heap(h, a[i]);
+	for (i = (n - 1);i >= 0;i--)
+		a[i] = delete_max_heap(h);
+
+	free(h);
+}
+```
+<br>
+
+- 내림차순 정렬
+```C
+void heap_sort_min(element a[], int n) {
+	int i;
+	HeapType* h;
+
+	h = create();
+	init(h);
+
+	for (i = 0;i < n;i++)
+		insert_max_heap(h, a[i]);
+	for (i = 0;i<n;i++)
+		a[i] = delete_max_heap(h);
+
+	free(h);
+}
+<br>
 ### 머쉰 스케줄링 (Machine Scheduling)
 - LPT(Longest Processing Time first)
 
