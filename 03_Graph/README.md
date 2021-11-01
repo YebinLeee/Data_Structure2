@@ -503,27 +503,29 @@ element dequeue(QueueType* q) {
 
 ```C
 // 인접 행렬을 이용한 너비 우선 탐색의 구현
-void bfs_mat(GraphType* g, int v) {
+void bfs_mat(GraphType* g,int vertex_list[], int v) {
 	QueueType* q;
 	int w;
 
 	q = (QueueType*)malloc(sizeof(QueueType));
 	init_queue(q);
-	
+
 	// 첫 정점
 	enqueue(q, v);
 	visited[v] = TRUE;
+	printf(" %d", vertex_list[v]); // 첫번째 v인덱스의 정점 출력
 
 	while (!is_empty(q)) {
-		v = dequeue(q);
-		printf("%d 방문 -> ", v);
+		v = dequeue(q); // 정점 v 인덱스 삽입
 		for (w = 0;w < g->n;w++)
 			// v 정점의 인접한 정점 중 방문하지 않은 정점 모두 큐에 삽입
 			if (g->adj_mat[v][w] && !visited[w]) {
 				enqueue(q, w);
 				visited[w] = TRUE; // 삽입할 땐 visited 값을 1로 변경
+				printf(" %d", vertex_list[w]); // enqueue할 때 정점 출력
 			}
 	}
+	free(q); // 큐 메모리 해제
 }	
 ```
 <br>
