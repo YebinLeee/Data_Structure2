@@ -50,15 +50,43 @@ void selection_sort(int list[], int n) {
 <br> <hr>
 
 
-## 삽입 정렬
-- 삽입 정렬(Insertion Sort)
+## 삽입 정렬 (Insertion Sort)
+
+```C
+void insertion_sort(int list[], int n) {
+	int i, j, key;
+	for (i = 1;i < n;i++) {
+		key = list[i];
+		for (j = i - 1;j >= 0 && key < list[j];j--) // 왼쪽 레코드들과 비교하여 삽입 위치 탐색
+			list[j + 1] = list[j];	// 레코드의 오른쪽 이동
+		list[j + 1] = key;
+	}
+}
+```
+<img src="https://user-images.githubusercontent.com/71310074/143280388-5f0428c8-46dc-4146-9008-d9ee4009558f.png" width="350">
 
 <br>
 
-## 버블 정렬
-- 버블 정렬(Bubble Sort)
+삽입 정렬 분석
+- 이미 정렬되어 있는 경우에 가장 빠르고 효율적
+- 총 비교 횟수: (n-1)번
+- 총 이동횟수: 2(n-1)번
+- `O(n)` : 외부 루프가 (n-1)번, 각 단계에서 1번의 비교와 2번의 이동이 이루어짐 (삽입할 레코드, 오른쪽으로 이동하는 레코드)
 
-<br>
+
+<br><hr>
+
+## 버블 정렬 (Bubble Sort)
+
+- 인접한 2개의 레코드를 비교하여 크기가 순서대로 되어 있지 않으면 서료 고환하는 비교-교환 과정을 왼쪽 끝에서 시작하여 오른쪽 끝까지 진행하며 정렬
+- 한번 완료되면 가장 큰 레코드가 리스트의 오른쪽 끝으로 이동
+- 전체 숫자가 전부 정렬될 때까지 진행
+- 
+<img src="https://user-images.githubusercontent.com/71310074/143281551-4f120a06-f90f-492d-9d10-37bf03c5c083.png" width="350">
+
+
+
+<br><hr>
 
 ## 쉘 정렬
 - 쉘 정렬(Shell Sort)
