@@ -39,13 +39,30 @@
 	2. [너비 우선 탐색 (BFS, Breadth First Search)](https://github.com/YebinLeee/Data_Structure2/blob/main/03_Graph/README.md#2-%EB%84%88%EB%B9%84-%EC%9A%B0%EC%84%A0-%ED%83%90%EC%83%89-bfs-breadth-first-search)
 		- 큐 구조
 
-
+<br>
 
 
 ## [04_Graph 2 (그래프2)](https://github.com/YebinLeee/Data_Structure2/tree/main/04_Graph2#readme)
+1. 최소 비용 신장 트리
+	1) Kruskal의 MST 알고리즘
+	2) 2) Prim의 MST 알고리즘
+
+2. 최단 경로 알고리즘
+	1) Dijkstra의 최단 경로 알고리즘
+	2) Floyd의 최단 경로 알고리즘
+
+3. 위상 정렬
+
 
 <br>
 
 ## [05_Sorting (정렬)](https://github.com/YebinLeee/Data_Structure2/tree/main/05_Sorting#readme)
 
-
+- 선택 정렬
+- 삽입 정렬
+- 버블 정렬
+- 쉘 정렬
+- 합병 정렬
+- 퀵 정렬
+- 히프 정렬
+- 기수 정렬
