@@ -40,3 +40,12 @@
 		- 큐 구조
 
 
+
+
+## [04_Graph 2 (그래프2)](https://github.com/YebinLeee/Data_Structure2/tree/main/04_Graph2#readme)
+
+<br>
+
+## [05_Sorting (정렬)](https://github.com/YebinLeee/Data_Structure2/tree/main/05_Sorting#readme)
+
+
