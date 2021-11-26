@@ -217,8 +217,49 @@ void merge_sort(int list[], int left, int right) {
 	- 임시 배열이 필요하다는 점 
 <hr><br>
 
-## 퀵 정렬
-- 퀵 정렬(Quick Sort)
+## 퀵 정렬 (Quick Sort)
+
+<img src = "https://user-images.githubusercontent.com/71310074/143562316-131ebd2b-6097-4b7d-9a94-385fbd777bcb.png" width="400">
+
+```C
+// 피벗보다 작은 데이터는 왼쪽 부분 리스트로, 큰 데이터는 오른쪽 부분 리스트로 이동
+int partition(int list[], int left, int right) {
+	int pivot, temp;
+	int low, high;
+
+	/*
+		low는 left에서 출발
+		high는 right에서 출발
+	*/
+	low = left;
+	high = right + 1;
+	pivot = list[left];	// pivot을 리스트의 첫번째 데이터로 설정
+
+	do {
+		do
+			low++;
+		while (list[low] < pivot);
+		do
+			high--;
+		while (list[high] > pivot);
+		
+		// 탐색이 멈추어진 위치
+		if (low < high) SWAP(list[low], list[high], temp);	// low와 high가 아직 교차하지 않은 경우 멈추어진 위치의 두 요소 교환
+	} while (low < high);	// low와 high가 교차하지 않은 경우에 반복문 실행
+
+	SWAP(list[left], list[high], temp);	// 피봇과 중앙값 교환
+	return high;	// 피봇의 위치 반환
+}
+
+void quick_sort(int list[], int left, int right) {
+	int q;
+	if (left < right) {	// 정렬할 범위가 2개 이상의 데이터인 경우
+		q = partition(list, left, right);	// 피벗을 기준으로 2개의 리스트로 분할(반환값 = 피봇의 위치)
+		quick_sort(list, left, q - 1);	// left에서 피봇 위치 바로 앞까지 순환 호출
+		quick_sort(list, q + 1, right);	// 피봇 위치 바로 다음부터 right까지 순환 호출
+	}
+}
+```
 
 <br>
 
