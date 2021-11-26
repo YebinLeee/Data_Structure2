@@ -2,14 +2,12 @@
 
 #define SWAP(x,y,t) ((t)=(x), (x)=(y), (y)=(t))
 
-void buuble_sort(int list[], int n) {
-	int i, j, temp;
-	for (i = n - 1;i > 0;i--) {
-		for (j = 0;j < i;j++)
-			if (list[j] > list[j + 1])
-				SWAP(list[j], list[j + 1], temp);
-	}
-}
+
+
+
+// 선택 정렬 ////////////////////////////////////////////////////
+
+
 void selection_sort(int list[], int n) {
 	int i, j, least, temp;
 	for (i = 0;i < n - 1;i++) {
@@ -21,6 +19,16 @@ void selection_sort(int list[], int n) {
 			SWAP(list[i], list[least], temp);	// i번째 요소와 교환
 	}
 }
+
+
+
+
+
+
+
+// 삽입 정렬 ////////////////////////////////////////////////////
+
+
 void insertion_sort(int list[], int n) {
 	int i, j, key;
 	for (i = 1;i < n;i++) {
@@ -30,6 +38,33 @@ void insertion_sort(int list[], int n) {
 		list[j + 1] = key;
 	}
 }
+
+
+
+
+
+
+
+// 버블 정렬 ////////////////////////////////////////////////////
+
+
+void buuble_sort(int list[], int n) {
+	int i, j, temp;
+	for (i = n - 1;i > 0;i--) {
+		for (j = 0;j < i;j++)
+			if (list[j] > list[j + 1])
+				SWAP(list[j], list[j + 1], temp);
+	}
+}
+
+
+
+
+
+
+
+// 쉘 정렬 ////////////////////////////////////////////////////
+
 
 // first에서 last 사이의 레코드들 중 gap만큼 떨어진 요소들을 삽입 정렬
 void inc_insertion_sort(int list[], int first, int last, int gap) {
@@ -50,6 +85,15 @@ void shell_sort(int list[], int n) {
 			inc_insertion_sort(list, i, n - 1, gap);
 	}
 }
+
+
+
+
+
+
+
+// 합병 정렬 ////////////////////////////////////////////////////
+
 
 #define MAX_SIZE 10000
 int sorted[MAX_SIZE]; // 합병된 리스트를 임시로 저장하는 배열
@@ -89,6 +133,15 @@ void merge_sort(int list[], int left, int right) {
 	}
 }
 
+
+
+
+
+
+
+// 퀵 정렬 ////////////////////////////////////////////////////
+
+
 // 피벗보다 작은 데이터는 왼쪽 부분 리스트로, 큰 데이터는 오른쪽 부분 리스트로 이동
 int partition(int list[], int left, int right) {
 	int pivot, temp;
@@ -126,6 +179,13 @@ void quick_sort(int list[], int left, int right) {
 		quick_sort(list, q + 1, right);	// 피봇 위치 바로 다음부터 right까지 순환 호출
 	}
 }
+
+
+
+
+
+
+// 기수 정렬 ////////////////////////////////////////////////////
 
 
 #define MAX_QUEUE_SIZE 100
