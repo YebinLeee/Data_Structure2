@@ -119,7 +119,8 @@ void buuble_sort(int list[], int n) {
 
 <br>
 
-<img src = "https://user-images.githubusercontent.com/71310074/143549725-8674af4b-f700-45b9-9ab5-54c483aeee03.png" width="350">
+<img src = "https://user-images.githubusercontent.com/71310074/143549725-8674af4b-f700-45b9-9ab5-54c483aeee03.png" width="400">
+<br>
 
 ```C
 // first에서 last 사이의 레코드들 중 gap만큼 떨어진 요소들을 삽입 정렬
@@ -154,8 +155,56 @@ void shell_sort(int list[], int n) {
 <br><hr>
 
 
-## 합병 정렬
-- 합병 정렬(Merge Sort)
+## 합병 정렬 (Merge Sort)
+- 하나의 리스트를 두 개의 균등한 크기로 분할하고, 분할된 부분 리스트를 정렬한 뒤 다시 합하여 전체가 정렬된 리스트틀 얻는 방법
+- 분할 정복(divide and conquer) 기법
+	- 분할(Divide): 입력 배열을 같은 크기의 2개의 부분 배열로 분할
+	- 정복(Conquer): 부분 배열을 정렬 (크기가 충분히 작아질 때까지 순환 호출을 하여 다시 분할 정복 기법 적용)
+	- 결합(Combine): 정렬된 부분 배열들을 하나의 배열에 통합
+
+<br>
+<img src= "https://user-images.githubusercontent.com/71310074/143554911-5ac6c2c8-91f7-4387-a668-bcb1a8049fff.png" width="300">
+
+```C
+#define MAX_SIZE 10000
+int sorted[MAX_SIZE]; // 합병된 리스트를 임시로 저장하는 배열
+
+void merge(int list[], int left, int mid, int right) {
+	/*
+	i: 정렬된 왼쪽 리스트에 대한 인덱스
+	j: 정렬된 오른쪽 리스트에 대한 인덱스
+	k: 정렬될 리스트에 대한 인덱스
+	*/
+	int i, j, k, l;;
+	i = left; j = mid + 1; k = left;
+
+	while (i <= mid && j <= right) {
+		if (list[i] <= list[j])
+			sorted[k++] = list[i++];
+		else
+			sorted[k++] = list[j++];
+	}
+	if (i > mid)
+		for (l = j;l <= right;l++)
+			sorted[k++] = list[l];
+	else
+		for (l = i;l <= mid;l++)
+			sorted[k++] = list[l];
+	for (l = left;l <= right;l++)
+		list[l] = sorted[l];
+}
+
+void merge_sort(int list[], int left, int right) {
+	int mid;
+	if (left < right) {
+		mid = (left + right) / 2;			/* 리스트의 균등 분할*/
+		merge_sort(list, left, mid);		/* 왼쪽 부분 리스트 정렬 */
+		merge_sort(list, mid + 1, right);	/* 오른쪽 부분 리스트 정렬 */
+		merge(list, left, mid, right);		/* 합병 */
+	}
+}
+```
+
 
 <br>
 
