@@ -218,10 +218,22 @@ void merge_sort(int list[], int left, int right) {
 <hr><br>
 
 ## 퀵 정렬 (Quick Sort)
+- 분할-정복법(divide and conquer)에 근거하여 전체 리스트를 2개의 부분 리스틀 분할하여, 각각의 부분 리스트를 순환 호출하며 다시 퀵 정렬하는 방법
+- 리스트의 한 요소 피벗(pivot)을 선택하여 피벗보다 작은 요소들은 모두 피벗의 왼쪽으로, 큰 요소들은 오른쪽으로 옮겨 각 리스트를 정렬하는 방법
+
+<br>
 
 <img src = "https://user-images.githubusercontent.com/71310074/143562316-131ebd2b-6097-4b7d-9a94-385fbd777bcb.png" width="400">
 
+- low(left mark)는 부분 리스트의 왼쪽 끝에서 오른쪽으로, high(right mark)는 오른쪽 끝에서 왼쪽으로 이동하여 탐색하며 피벗보다 큰 데이터, 작은 데이터를 각각 찾으면 멈추고
+- 탐색이 멈추어진 위치에서 low와 high 요소를 교환
+- 서로 엇갈리게 되면 멈춘 위치에서 피벗을 이동시키고 나면 두 리스트로 분할하게 됨
+
+<br>
+
 ```C
+#define SWAP(x,y,t) ((t)=(x), (x)=(y), (y)=(t))
+
 // 피벗보다 작은 데이터는 왼쪽 부분 리스트로, 큰 데이터는 오른쪽 부분 리스트로 이동
 int partition(int list[], int left, int right) {
 	int pivot, temp;
@@ -247,7 +259,7 @@ int partition(int list[], int left, int right) {
 		if (low < high) SWAP(list[low], list[high], temp);	// low와 high가 아직 교차하지 않은 경우 멈추어진 위치의 두 요소 교환
 	} while (low < high);	// low와 high가 교차하지 않은 경우에 반복문 실행
 
-	SWAP(list[left], list[high], temp);	// 피봇과 중앙값 교환
+	SWAP(list[left], list[high], temp);	// 피봇과 마지막 high위치의 요소와 교환
 	return high;	// 피봇의 위치 반환
 }
 
@@ -260,8 +272,35 @@ void quick_sort(int list[], int left, int right) {
 	}
 }
 ```
-
 <br>
+
+### 퀵 정렬 분석
+- 최선/평균의 경우: 리스트의 분할이 항상 리스트의 가운데에서 이루어져, 거의 균등한 두 부분 리스트로 분할 되는 경우 (pivot 값이 나머지 값들의 중간값인 경우)
+	- n이 2의 거듭제곱이라 가정할 때, `k=log2n`의 패스가 필요하고, 각각의 패스에서 전체 리스트의 대부분의 레코드를 비교해야 하므로 평균 n번의 비교가 이루어짐
+	- `O(nlog2n)`
+
+- 최악의 경우: 계속 불균형하게 나누어지는 경우 (pivot이 리스트의 끝에 위치하는 경우)
+	- `O(n^2)`
+- 다른 정렬 알고리즘과 비교해 가장 빠른 방법
+- 불필요한 데이터의 이동을 줄이고, 먼 거리의 데이터를 교환할 뿐 아니라 한번 결정된 피벗들이 추후 연산에서 제외됨
+- 피벗을 중간값(median)으로 선택하는 것이 중요
+- C언어의 `qsort` 함수로 제공됨
+
+<details>
+	<summary> C언어의 qsort 함수 </summary>
+
+```C
+void qsort(
+	void* base,		// 배열의 시작 주소
+	size_t num,		// 배열 요소의 개수
+	size_t width,	// 배열 요소 하나의 크기(바이트 단위)
+	int(*compare)(const void*, const void*)
+		// 포인터를 통해 두 요소를 비교하여 비교 결과를 정수로 반환
+);
+```
+</details>
+
+<br><hr>
 
 ## 히프 정렬
 - 히프 정렬(Heap Sort)
