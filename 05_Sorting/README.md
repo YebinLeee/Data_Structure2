@@ -305,6 +305,42 @@ void qsort(
 ## 히프 정렬
 - 히프 정렬(Heap Sort)
 
-## 기수 정렬
-- 기수 정렬(Raidx Sort)
+## 기수 정렬 (Radix Sort)
+- 기수(radix, 숫자의 자리수)의 값에 따라 큐 배열(버킷, bucket)을 만들어 각 자리수의 값에 따라 넣기를 반복
+	- 2진법: 0과 1, 총 2개의 버킷 필요
+	- 숫자인 경우: 0~9, 총 10개의 버킷 필요
+	- 알파벳 문자인 경우: a~z, 총 26개의 버킷 필요
+- 데이터의 자리수의 개수만큼 단계적으로 정렬을 함 (낮은 자리부터)
+	- 두자리의 정수인 경우 낮은 1의 자리수부터 10의 자리수까지, 2번의 정렬 단계가 필요
+
+<br>
+
+
+```C
+#define BUCKETS 10	// 필요한 버킷 수 (십진수인경우)
+#define DIGITS 2	// 자리수 (두자리수인경우)
+
+// 기수 정렬
+void radix_sort(int list[], int n) {
+	int i, b, d, factor = 1;
+	QueueType queues[BUCKETS]; // BUCKETS개의 큐 선언
+
+	for (b = 0;b < BUCKETS;b++)init_queue(&queues[b]); // 큐 초기화
+
+	for (d = 0;d < BUCKETS;d++) {
+		for(i=0;i<n;i++)	// 데이터들을 자리수에 따라 큐에 삽입
+			enqueue(&queues[(list[i] / factor) % 10], list[i]);
+
+		for (b = i = 0;b < BUCKETS;b++)	// 버킷에서 꺼내어 list로 합침
+			while (!is_empty(&queues[b]))
+				list[i++] = dequeue(&queues[b]);	// 차례대로 0번 버킷부터 list에 삽입
+		factor *= 10;	// 다음 자리수로 이동
+	}
+}
+```
+<br>
+
+### 기수 정렬 분석
+- n개의 정수, 각 정수가 d개의 자리수인 경우 -> 내부 루프 n번, 외부 루프 d번 : `O(d*n)` (d의 값이 대게 매우 작으므로 `O(n)`)
+- 정렬에 사용되는 키 값이 숫자로 표현되어야만 함 
 
