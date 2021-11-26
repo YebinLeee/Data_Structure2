@@ -1,7 +1,7 @@
 # 정렬 (Sorting)
 
-1. 단순하지만 비효율저긴 방법 - 삽입/선택/버블 정렬
-2. 복잡하지만 효율적인 방법 - 퀵/히프/합병/기수 정렬
+1. 단순하지만 비효율적인 방법 - [선택](https://github.com/YebinLeee/Data_Structure2/tree/main/05_Sorting#%EC%84%A0%ED%83%9D-%EC%A0%95%EB%A0%AC-selection-sort)/[삽입](https://github.com/YebinLeee/Data_Structure2/tree/main/05_Sorting#%EC%82%BD%EC%9E%85-%EC%A0%95%EB%A0%AC-insertion-sort)/[버블](https://github.com/YebinLeee/Data_Structure2/tree/main/05_Sorting#%EB%B2%84%EB%B8%94-%EC%A0%95%EB%A0%AC-bubble-sort)/[쉘](https://github.com/YebinLeee/Data_Structure2/tree/main/05_Sorting#%EC%89%98-%EC%A0%95%EB%A0%AC-shell-sort) 정렬
+2. 복잡하지만 효율적인 방법 - [퀵](https://github.com/YebinLeee/Data_Structure2/tree/main/05_Sorting#%ED%80%B5-%EC%A0%95%EB%A0%AC)/[히프](https://github.com/YebinLeee/Data_Structure2/tree/main/05_Sorting#%ED%9E%88%ED%94%84-%EC%A0%95%EB%A0%AC)/[합병](https://github.com/YebinLeee/Data_Structure2/tree/main/05_Sorting#%ED%95%A9%EB%B3%91-%EC%A0%95%EB%A0%AC-merge-sort)/[기수](https://github.com/YebinLeee/Data_Structure2/tree/main/05_Sorting#%EA%B8%B0%EC%88%98-%EC%A0%95%EB%A0%AC) 정렬
 
 <br>
 
