@@ -170,26 +170,26 @@ void shell_sort(int list[], int n) {
 int sorted[MAX_SIZE]; // 합병된 리스트를 임시로 저장하는 배열
 
 void merge(int list[], int left, int mid, int right) {
-	/*
-	i: 정렬된 왼쪽 리스트에 대한 인덱스
-	j: 정렬된 오른쪽 리스트에 대한 인덱스
-	k: 정렬될 리스트에 대한 인덱스
-	*/
 	int i, j, k, l;;
-	i = left; j = mid + 1; k = left;
+	i = left;		/* 왼쪽 리스트의 첫 요소 인덱스 */
+	j = mid + 1;	/* 오른쪽 리스트의 첫 요소 인덱스 */
+	k = left;		/* 정렬될 리스트에 대한 인덱스 */
 
+	/* 분할 정렬된 list의 합병 */
 	while (i <= mid && j <= right) {
 		if (list[i] <= list[j])
-			sorted[k++] = list[i++];
+			sorted[k++] = list[i++];	// 왼쪽리스트의 요소
 		else
-			sorted[k++] = list[j++];
+			sorted[k++] = list[j++];	// 오른쪽 리스트의 요소
 	}
+	/* 합병 후 남아있는 레코드의 일괄 복사 */
 	if (i > mid)
-		for (l = j;l <= right;l++)
+		for (l = j;l <= right;l++)	// 오른쪽 리스트 복사
 			sorted[k++] = list[l];
 	else
-		for (l = i;l <= mid;l++)
+		for (l = i;l <= mid;l++)	// 왼쪽 리스트 복사
 			sorted[k++] = list[l];
+	/* 배열 sorted의 리스트를 다시 배열 list로 재복사 */
 	for (l = left;l <= right;l++)
 		list[l] = sorted[l];
 }
@@ -205,8 +205,17 @@ void merge_sort(int list[], int left, int right) {
 }
 ```
 
-
 <br>
+
+### 합병 정렬 분석
+- 순환 호출의 깊이 : `log2n`, 총 비교 연산: 최대 `nlog2n`, 총 이동 연산: `2nlog2n`
+- 최악, 평균, 최선의 경우 모두 복잡도가 `O(nlog2n)`
+- 장점
+	- 안정적 -> 입력 데이터가 무엇이든간에 정렬 시간 동일
+- 단점
+	- 레코드의 크기가 큰 경우 이동 횟수가 많다는 단점 -> 연결 리스트로 구성하는 경우 링크 인덱스만 변경하면 가능
+	- 임시 배열이 필요하다는 점 
+<hr><br>
 
 ## 퀵 정렬
 - 퀵 정렬(Quick Sort)
