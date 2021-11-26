@@ -62,7 +62,7 @@ void insertion_sort(int list[], int n) {
 		key = list[i];
 		for (j = i - 1;j >= 0 && key < list[j];j--) // 왼쪽 레코드들과 비교하여 삽입 위치 탐색
 			list[j + 1] = list[j];	// 레코드의 오른쪽 이동
-		list[j + 1] = key;
+		list[j + 1] = key; // 최종 위치에 key 
 	}
 }
 ```
@@ -127,9 +127,9 @@ void inc_insertion_sort(int list[], int first, int last, int gap) {
 	int i, j, key;
 	for (i = first + gap;i <= last;i = i + gap) {
 		key = list[i];
-		for (j = i - gap;j >= first && key < list[j];j = j - gap)
-			list[j + gap] = list[j];
-		list[j + gap] = key;
+		for (j = i - gap;j >= first && key < list[j];j = j - gap) // 부분 리스트의 왼쪽 레코드들과 비교하여 삽입 위치 탐색
+			list[j + gap] = list[j];	// 부분 리스트 레코드의 오른쪽 이동
+		list[j + gap] = key; // 최종 위치에 key 삽입
 	}
 }
 
@@ -143,6 +143,16 @@ void shell_sort(int list[], int n) {
 }
 ````
 <br>
+
+
+### 쉘 정렬 분석
+- 연속적이지 않은 부분 리스트에서의 자료(일정 간격을 둔 레코드)의 교환이 더 큰 거리를 이동하지만 한번에 한칸씩 이동
+- 부분 리스트가 어느정도 정렬이 된 상태이므로, 부분 리스트 개수가 1이 되면 셀 정렬은 기본적으로 삽입 정렬을 수행하며 거의 정렬된 리스트가 완성되므로 빠르게 수행됨
+- 최악: `O(n^2)`, 평균: `O(n^1.5)`
+
+
+<br><hr>
+
 
 ## 합병 정렬
 - 합병 정렬(Merge Sort)
