@@ -52,6 +52,9 @@ void selection_sort(int list[], int n) {
 
 ## 삽입 정렬 (Insertion Sort)
 
+- 각 자료가 리스트 내ㅔ서 삽입되어야 할 위치를 탐색하고, 나머지 자료들을 이동하기를 반복하는 알고리즘
+
+
 ```C
 void insertion_sort(int list[], int n) {
 	int i, j, key;
@@ -107,9 +110,38 @@ void buuble_sort(int list[], int n) {
 
 <br><hr>
 
-## 쉘 정렬
-- 쉘 정렬(Shell Sort)
+## 쉘 정렬 (Shell Sort)
 
+- 전체의 리스트를 한 번에 정렬하는 삽입 정렬을 보완한 방법
+- 주어진 리스트의 각 k번째 요소를 추출하여 만든 간격(gap)에 따라 부분 리스트(sublist)를 구성하고 부분 리스트 내에서 삽입 정렬을 실행하고, 각 스텝마다 간격 k를 줄여가며 수행 과정을 반복
+- 일정한 간격으로 삽입 정렬을 수행
+- 간격(gap)은 처음에는 n/2(짝수인 경우에는 1증가) 하고 각 패스마다 간격을 절반으로 줄이는 방식 사용
+
+<br>
+
+<img src = "https://user-images.githubusercontent.com/71310074/143549725-8674af4b-f700-45b9-9ab5-54c483aeee03.png" width="350">
+
+```C
+// first에서 last 사이의 레코드들 중 gap만큼 떨어진 요소들을 삽입 정렬
+void inc_insertion_sort(int list[], int first, int last, int gap) {
+	int i, j, key;
+	for (i = first + gap;i <= last;i = i + gap) {
+		key = list[i];
+		for (j = i - gap;j >= first && key < list[j];j = j - gap)
+			list[j + gap] = list[j];
+		list[j + gap] = key;
+	}
+}
+
+void shell_sort(int list[], int n) {
+	int i, gap;
+	for (gap = n / 2;gap > 0;gap = gap / 2) {
+		if ((gap % 2) == 1)gap++;	 // 간격 gap이 짝수인경우 1을 더함
+		for (i = 0;i < gap;i++)
+			inc_insertion_sort(list, i, n - 1, gap);
+	}
+}
+````
 <br>
 
 ## 합병 정렬
