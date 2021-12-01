@@ -20,6 +20,9 @@
 ## 순차 탐색
 
 - 순차 탐색(sequential search): 처음부터 마지막 항목까지 하나씩 검사하여 원하는 항목을 찾아가는 방법
+<img src="https://user-images.githubusercontent.com/71310074/144171960-c4131936-396e-4446-8e0c-7f518d4aa932.png" width="700">
+<br>
+
 
 <details>
   <summary> 일반적인 순차 탐색 알고리즘 </summary>
@@ -65,8 +68,10 @@ int sequential_search(int key, int low, int high) {
 
 ## 이진 탐색
 - 이진 탐색 (Binary Search): 배열의 중앙값을 기준으로, 탐색의 범위를 반으로 줄이며 탐색을 반복
+
+<img src="https://user-images.githubusercontent.com/71310074/144171988-4ea1c65e-6a74-48c6-9ccb-1582c34de9c2.png" width="700">
 <br>
-  
+	
 1. 순환 호출
 ```C
 // 순환호출을 이용한 이진 탐색
@@ -112,17 +117,69 @@ int search_binary2(int key, int low, int high) {
 ### 이진 탐색 분석
 - 탐색 횟수, 시간복잡도: `O(log2n)`
   
-<br>
+<br><br>
 
 ## 색인 순차 탐색
-- 색인 순차 탐색 (Indexed Sequential Search)
+- 색인 순차 탐색 (Indexed Sequential Search) : 인덱스 테이블을 이용해 예상 탐색 범위 내에서만 순차 탐색을 하는  방법
 - 인덱스 테이블: 주 자료 리스트에서 일정 간격으로 발췌한 자료를 저장
-  
-  
+	- 주 자료 리스트의 데이터 개수가 n개이고 인덱스 테이블에 m개의 항목이 있을 때, 각 인덱스 항목은 주 자료 리스트의 각 n/m번째 데이터를 갖게 된다.
+
+```C
+// 인덱스 테이블 구조체
+#define INDEX_SIZE 256
+typedef struct {
+	int key;		// 인덱스가 가리키는 곳의 키 값
+	int index;		// 인덱스 값
+}itable;
+itable index_list[INDEX_SIZE];
+```
+ 
 <br>
-  
+
+<img src="https://user-images.githubusercontent.com/71310074/144174043-4cfc6d83-a6cc-4ce7-b1cd-cc2c1d88ebf4.png" width="500">
+	
+<br>
+
+- 색인 순차 탐색 알고리즘 
+```C
+// 색인 순차 탐색 (INDEX_SIZE: 인덱스 테이블 크기, n: 전체 데이터 수)
+int search_index(int key, int n) {
+	int i, low, high;
+
+	// 키 값이 리스트 범위 내의 값이 아니면 탐색 종료
+	if (key<list[0] || key>list[n - 1])
+		return -1;
+
+	// 인덱스 테이블을 조사하여 해당키의 구간 결정
+	for (i = 0;i < INDEX_SIZE;i++)
+		if (index_list[i].key <= key && index_list[i + 1].key > key)
+			break;
+	if (i == INDEX_SIZE) {		// 인덱스 테이블의 끝인 경우
+		low = index_list[i - 1].index;
+		high = n;
+	}
+	else {
+		low = index_list[i].index;
+		high = index_list[i + 1].index;
+	}
+	// 예상되는 범위만 순차 탐색
+	return seq_search(key, low, high);
+}
+```	
+<br>
+
+### 색인 순차 탐색 분석
+- 인덱스 테이블 크기 m이 크면 탐색 시간 감소, 작으면 탐색 시간 증가
+- 인덱스 테이블 크기 m, 주 자료 리스트 크기 n일때 -> 복잡도: `O(m+n/m)`
+
+
+<br><br>
+	
+
 ## 보간 탐색
-- 보간 탐색(Interpolation Search)
+- 보간 탐색(Interpolation Search) : 찾고자 하는 키값과 현재의 low, high 위치 값을 고려하여 탐색 위치를 분할하여 탐색하는 방법
+	
+	
   
   
 <br>
