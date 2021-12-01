@@ -3,8 +3,19 @@
 - 팀섹(search): 탐색키(serach key)와 데이터로 이루어진 여러 개의 항목 중에서 원하는 탐색키를 가지고 있는 항목을 찾는 것
 <br>
 
+정렬되지 않은 배열에서의 탐색
+- [순차 탐색](https://github.com/YebinLeee/Data_Structure2/tree/main/06_Search#%EC%88%9C%EC%B0%A8-%ED%83%90%EC%83%89)
 
-### ▼ 정렬되지 않은 배열에서의 탐색
+정렬된 배열에서의 탐색
+- [이진 탐색](https://github.com/YebinLeee/Data_Structure2/tree/main/06_Search#%EC%9D%B4%EC%A7%84-%ED%83%90%EC%83%89)
+- [색인 순차 탐색](https://github.com/YebinLeee/Data_Structure2/tree/main/06_Search#%EC%83%89%EC%9D%B8-%EC%88%9C%EC%B0%A8-%ED%83%90%EC%83%89)
+- [보간 탐색](https://github.com/YebinLeee/Data_Structure2/tree/main/06_Search#%EB%B3%B4%EA%B0%84-%ED%83%90%EC%83%89)
+- [AVL 트리 탐색](https://github.com/YebinLeee/Data_Structure2/tree/main/06_Search#%EB%B3%B4%EA%B0%84-%ED%83%90%EC%83%89)
+
+
+<br><hr><br>
+
+
 
 ## 순차 탐색
 
@@ -51,7 +62,6 @@ int sequential_search(int key, int low, int high) {
 <br><hr><br>
 
 
-### ▼ 정렬된 배열에서의 탐색
 
 ## 이진 탐색
 - 이진 탐색 (Binary Search): 배열의 중앙값을 기준으로, 탐색의 범위를 반으로 줄이며 탐색을 반복
@@ -115,3 +125,6 @@ int search_binary2(int key, int low, int high) {
 - 보간 탐색(Interpolation Search)
   
   
+<br>
+	
+## AVL 트리 탐색
