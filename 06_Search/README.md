@@ -210,7 +210,8 @@ int interpol_search(int list[], int key, int n) {
 
 <br>
 	
-### AVL 트리 구조체
+<details>
+	<summary> AVL 트리 구조체 </summary>
 ```c
 // AVL 트리 구조체
 typedef struct AVLNode {
@@ -218,16 +219,13 @@ typedef struct AVLNode {
 	struct AVLNode* left;
 	struct AVLNode* right;
 }AVLNode;
-```
-	
+```	
+</details>
 	
 <br>
 	
 - 균형인수(balance factor): 왼쪽 서브트리 높이 - 오른쪽 서브트리 높이
 	
-### Rotations
-![image](https://user-images.githubusercontent.com/71310074/144987816-a326597f-869c-40b2-be8b-2badb0b223e7.png)
-
 ```c
 // 트리 높이 구하기
 int get_height(AVLNode* node) {
@@ -244,21 +242,8 @@ int get_balance(AVLNode* node) {
 	return get_height(node->left) - get_height(node->right);
 }
 ```
-
-```c
-// 오른쪽으로 회전
-AVLNode* rotate_right(AVLNode* parent) {
-	AVLNode* child = parent->left;	// child: 루트의 왼쪽 서브트리
-	parent->left = child->right;	// 루트의 왼쪽 자식 노드 위치에 child의 오른쪽 서브트리 이동
-	child->right = parent;			// child의 오른쪽 서브트리에 루트 서브트리 이동
-}
-// 왼쪽으로 회전
-AVLNode* rotate_left(AVLNode* parent) {
-	AVLNode* child = parent->right;	// child: 루트의 오른쪽 서브트리
-	parent->right = child->left;	// 루트의 오른쪽 자식	노드 위치에 child의 왼쪽서브트리 이동
-	child->left = parent;			// child의 왼쪽 서브트리에 루트 서브트리 이동
-}
-```
+<br>
+	
 	
 ### AVL 트리의 삽입 연산
 - 새로운 노드 삽입 후 불균형 상태를 확인하고, 가장 가까운 조상 노드(균형 인수가 +-2가 된 가장 가까운 조상 노드)의 서브 트리들에 대해 다시 균형을 잡아야 함
@@ -301,6 +286,25 @@ AVLNode* insert(AVLNode* node, int key) {
 		return rotate_left(node);
 	}
 	return node;
+}
+```
+<br>
+
+### AVL트리의 회전
+![image](https://user-images.githubusercontent.com/71310074/144987816-a326597f-869c-40b2-be8b-2badb0b223e7.png)
+
+```c
+// 오른쪽으로 회전
+AVLNode* rotate_right(AVLNode* parent) {
+	AVLNode* child = parent->left;	// child: 루트의 왼쪽 서브트리
+	parent->left = child->right;	// 루트의 왼쪽 자식 노드 위치에 child의 오른쪽 서브트리 이동
+	child->right = parent;			// child의 오른쪽 서브트리에 루트 서브트리 이동
+}
+// 왼쪽으로 회전
+AVLNode* rotate_left(AVLNode* parent) {
+	AVLNode* child = parent->right;	// child: 루트의 오른쪽 서브트리
+	parent->right = child->left;	// 루트의 오른쪽 자식	노드 위치에 child의 왼쪽서브트리 이동
+	child->left = parent;			// child의 왼쪽 서브트리에 루트 서브트리 이동
 }
 ```
 	
