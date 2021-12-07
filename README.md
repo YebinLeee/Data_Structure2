@@ -66,3 +66,28 @@
 - 퀵 정렬
 - 히프 정렬
 - 기수 정렬
+
+
+<br>
+
+## [06_Search (탐색)](https://github.com/YebinLeee/Data_Structure2/tree/main/06_Search)
+
+- 순차 탐색
+- 이진 탐색
+- 색인 순차 탐색
+- 보간 탐색
+- AVL트리 탐색
+
+<br>
+
+## [07_Hashing (해시)](https://github.com/YebinLeee/Data_Structure2/tree/main/07_Hashing)
+
+- 해시 함수
+	- 제산 함수
+	- 폴딩 함수
+- 개방 주소법
+	- 선형 조사법
+	- 이차 조사법
+	- 이중 해시법
+- 체이닝
+
