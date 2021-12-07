@@ -47,7 +47,7 @@ void selection_sort(int list[], int n) {
 - 한번 교환을 위해 총 3번의 이동 필요
 - 전체 이동 횟수: 3(n-1)
 
-<br> <hr>
+<br> <hr> <br>
 
 
 ## 삽입 정렬 (Insertion Sort)
@@ -77,7 +77,7 @@ void insertion_sort(int list[], int n) {
 - `O(n)` : 외부 루프가 (n-1)번, 각 단계에서 1번의 비교와 2번의 이동이 이루어짐 (삽입할 레코드, 오른쪽으로 이동하는 레코드)
 
 
-<br><hr>
+<br> <hr> <br>
 
 ## 버블 정렬 (Bubble Sort)
 
@@ -108,7 +108,8 @@ void buuble_sort(int list[], int n) {
 
 
 
-<br><hr>
+
+<br> <hr> <br>
 
 ## 쉘 정렬 (Shell Sort)
 
@@ -152,7 +153,8 @@ void shell_sort(int list[], int n) {
 - 최악: `O(n^2)`, 평균: `O(n^1.5)`
 
 
-<br><hr>
+
+<br> <hr> <br>
 
 
 ## 합병 정렬 (Merge Sort)
@@ -215,7 +217,10 @@ void merge_sort(int list[], int left, int right) {
 - 단점
 	- 레코드의 크기가 큰 경우 이동 횟수가 많다는 단점 -> 연결 리스트로 구성하는 경우 링크 인덱스만 변경하면 가능
 	- 임시 배열이 필요하다는 점 
-<hr><br>
+
+
+<br> <hr> <br>
+
 
 ## 퀵 정렬 (Quick Sort)
 - 분할-정복법(divide and conquer)에 근거하여 전체 리스트를 2개의 부분 리스틀 분할하여, 각각의 부분 리스트를 순환 호출하며 다시 퀵 정렬하는 방법
@@ -300,10 +305,17 @@ void qsort(
 ```
 </details>
 
-<br><hr>
 
-## 히프 정렬
-- 히프 정렬(Heap Sort)
+<br> <hr> <br>
+
+## [히프 정렬 (Heap Sort)](https://github.com/YebinLeee/Data_Structure2/tree/main/02_Heap#%ED%9E%88%ED%94%84-%EC%A0%95%EB%A0%AC-heap-sort)
+- 우선순위 큐를 완전 이진 트리의 배열로 구현하는 방법
+- 히프 정렬: 히프 트리를 차례대로 삭제하여 배열에 차례대로 삽입하는 것
+	- 최소 히프 트리(Minimum Heap Tree): 루트 노드가 최솟값을 가지며, 부모 노드가 자식 노드의 값보다 항상 작은 히프 트리
+	- 최대 히프 트리(Maximum Heap Tree): 루트 노드가 최댓값을 가지며, 부모 노드가 자식 노드의 값보다 항상 큰 히프 트리
+
+<br><hr><br>
+
 
 ## 기수 정렬 (Radix Sort)
 - 기수(radix, 숫자의 자리수)의 값에 따라 큐 배열(버킷, bucket)을 만들어 각 자리수의 값에 따라 넣기를 반복
@@ -343,4 +355,19 @@ void radix_sort(int list[], int n) {
 ### 기수 정렬 분석
 - n개의 정수, 각 정수가 d개의 자리수인 경우 -> 내부 루프 n번, 외부 루프 d번 : `O(d*n)` (d의 값이 대게 매우 작으므로 `O(n)`)
 - 정렬에 사용되는 키 값이 숫자로 표현되어야만 함 
+
+
+<br><hr>
+
+# 정렬 알고리즘의 비교
+|알고리즘|최선|평균|최악|
+|--|--|--|--|
+|선택 정렬|`O(n^2)`|`O(n^2)`|`O(n^2)`|
+|삽입 정렬|`O(n)`|`O(n^2)`|`O(n^2)`|
+|버블 정렬|`O(n^2)`|`O(n^2)`|`O(n^2)`|
+|쉘 정렬|`O(n)`|`O(n^1.5)`|`O(n^1.5)`|
+|합병 정렬|`O(nlog2n)`|`O(nnlog2n)`|`O(n^2)`|
+|퀵 정렬|`O(nlog2n)`|`O(nlog2n)`|`O(n^2)`|
+|히프 정렬|`O(nlog2n)`|`O(nlog2n)`|`O(nlog2n)`|
+|기수 정렬|`O(dn)`|`O(dn)`|`O(dn)`|
 
