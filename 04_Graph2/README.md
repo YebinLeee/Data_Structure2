@@ -23,7 +23,7 @@
 2) 사이클을 포함하지 않는 조건
 <br>
 
-<img src="https://user-images.githubusercontent.com/71310074/145030856-39fd1500-4c8b-44cb-a5fb-1fb135269cea.png" width="400">
+<img src="https://user-images.githubusercontent.com/71310074/145030856-39fd1500-4c8b-44cb-a5fb-1fb135269cea.png" width="500">
 <img src="https://user-images.githubusercontent.com/71310074/145008034-0dfa2c7e-d125-4f42-9f65-4469217ec22a.png" width="400">
 <br>
 
@@ -55,7 +55,7 @@
 - (n-1)개의 간선을 선택하게 될 까지 진행
 
 
-<img src ="https://user-images.githubusercontent.com/71310074/145027756-9dc8ba0b-1964-4575-ba86-da91c6a7869c.png" width="400">
+<img src ="https://user-images.githubusercontent.com/71310074/145027756-9dc8ba0b-1964-4575-ba86-da91c6a7869c.png" width="500">
 
 <br><hr>
 
@@ -90,12 +90,20 @@
 - 시간 복잡도: `O(n^3)`
 
 
-<br>
+<br><hr>
+
 
 ## 3. 위상 정렬 
 
+그래프의 위상 정렬 알고리즘
 - 방향 그래프에서의 `간선 <u, v>` : 정점 u는 정점 v를 선행한다.
 - 위상 정렬(topological sort) : 각 정점들의 선행 순서를 위배하지 않으면서 모든 정점을 나열하는 것
 - 진입 차수가 0인 정점을 선택하고, 선택된 정점과 그리고 이 정점에 부착된 모든 간선을 삭제하는 과정을 반복하여 모든 정점이 선택/삭제 되면 알고리즘 종료
+
+<img src="https://user-images.githubusercontent.com/71310074/145035451-76a7eb3b-afba-488d-ab5b-2f69aaed3eff.png" width="500">
+
+- 각 리스트에 연결된 노드에 저장된 값을 바탕으로 `in_degree`에 진입 차수 값들을 저장
+- 각 리스트에 연결된 노드에 방문할 때마다 진입 차수 감소, 진입 차수가 0으로 변경된 노드는 스택에 저장
+- 스택에서 삽입한 노드에 대해 방문 
 
 
