@@ -178,10 +178,133 @@ int search_index(int key, int n) {
 
 ## 보간 탐색
 - 보간 탐색(Interpolation Search) : 찾고자 하는 키값과 현재의 low, high 위치 값을 고려하여 탐색 위치를 분할하여 탐색하는 방법
-	
-	
+
+```C
+// 보간 탐색 알고리즘
+int interpol_search(int list[], int key, int n) {
+	int low, high, j;	// j: 탐색 키값의 위치
+
+	low = 0;
+	high = n - 1;
+	while ((list[high] >= key) && (key > list[low])) {
+		j = ((float)(key - list[low]) / (list[high] - list[low]) * (high - low)) + low;
+		if (key > list[j])low = j + 1;			// low 조정
+		else if (key < list[j])high = j - 1;	// high 조정
+		else low = j;							// 탐색 성공
+	}
+	if (list[low] == key) return(low);	// 탐색 성공
+	else return -1;
+}
+```
+					   
+- 많은 데이터가 비교적 균등하게 분포되어 있을 경우 이진 탐색보다 우수한 방법
+- 시간 복잡도: `O(log2n)`
   
   
 <br>
 	
 ## AVL 트리 탐색
+- 왼쪽 서브 트리의 높이와 오른쪽 서브 트리의 높이 차이가 1 이하인 이진 탐색 트리
+- 트리가 비균형 상태로 되면 스스로 노드들을 재배치 하여 균형 상태로 만듬
+- 균형 트리가 항상 보자되므로 삽입, 삭제, 탐색 모두 시간 복잡도 `O(log2n)` 유지
+
+<br>
+	
+### AVL 트리 구조체
+```c
+// AVL 트리 구조체
+typedef struct AVLNode {
+	int key;
+	struct AVLNode* left;
+	struct AVLNode* right;
+}AVLNode;
+```
+	
+	
+<br>
+	
+- 균형인수(balance factor): 왼쪽 서브트리 높이 - 오른쪽 서브트리 높이
+	
+### Rotations
+![image](https://user-images.githubusercontent.com/71310074/144987816-a326597f-869c-40b2-be8b-2badb0b223e7.png)
+
+```c
+// 트리 높이 구하기
+int get_height(AVLNode* node) {
+	int height = 0;
+
+	if (node != NULL)
+		height = 1 + max(get_height(node->left), get_height(node->right));
+	return height;
+}
+
+// 노드의 균형 인수 반환
+int get_balance(AVLNode* node) {
+	if (node == NULL)return 0;
+	return get_height(node->left) - get_height(node->right);
+}
+```
+
+```c
+// 오른쪽으로 회전
+AVLNode* rotate_right(AVLNode* parent) {
+	AVLNode* child = parent->left;	// child: 루트의 왼쪽 서브트리
+	parent->left = child->right;	// 루트의 왼쪽 자식 노드 위치에 child의 오른쪽 서브트리 이동
+	child->right = parent;			// child의 오른쪽 서브트리에 루트 서브트리 이동
+}
+// 왼쪽으로 회전
+AVLNode* rotate_left(AVLNode* parent) {
+	AVLNode* child = parent->right;	// child: 루트의 오른쪽 서브트리
+	parent->right = child->left;	// 루트의 오른쪽 자식	노드 위치에 child의 왼쪽서브트리 이동
+	child->left = parent;			// child의 왼쪽 서브트리에 루트 서브트리 이동
+}
+```
+	
+### AVL 트리의 삽입 연산
+- 새로운 노드 삽입 후 불균형 상태를 확인하고, 가장 가까운 조상 노드(균형 인수가 +-2가 된 가장 가까운 조상 노드)의 서브 트리들에 대해 다시 균형을 잡아야 함
+	
+```C
+// 노드 추가 함수
+AVLNode* insert(AVLNode* node, int key) {
+	int balance;
+
+	if (node == NULL)
+		return (create_node(key));
+
+	// 노드 삽입
+	if (key < node->key)
+		node->left = insert(node->left, key);
+	else if (key > node->key)
+		node->right = insert(node->right, key);
+	else
+		return node;
+
+	balance = get_balance(node);	// 균형 인자 구하기
+
+	// LL 타입 처리
+	if (balance > 1 && key < node->left->key)
+		return rotate_right(node);
+
+	// RR 타입 처리
+	if (balance < -1 && key >node->right->key)
+		return rotate_left(node);
+
+	// LR 타입 처리
+	if (balance > 1 && key > node->left->key) {
+		node->left = rotate_left(node->left);
+		return rotate_right(node);
+	}
+
+	// RL 타입 처리
+	if (balance < -1 && key < node->right->key) {
+		node->right = rotate_right(node->right);
+		return rotate_left(node);
+	}
+	return node;
+}
+```
+	
+	
+
+
+
