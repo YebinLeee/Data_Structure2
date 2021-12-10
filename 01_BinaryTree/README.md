@@ -34,6 +34,10 @@
 - 왼쪽 서브트리와 오른쪽 서브트리로 구분 
 <br>
 
+<img src="https://user-images.githubusercontent.com/71310074/145604746-2203a3d6-2a2f-41b2-8df2-329205839eda.png" width="400">
+
+<br>
+
 ### 이진 트리의 성질
 - n개의 노드를 가진 이진 트리는 n-1 개읙 ㅏㄴ선을 가진다.
 - 높이가 h인 이진트리의 경우, 최소 h개의 노드, 최대 (2^h-1)개의 노드를 가진다.
@@ -42,6 +46,8 @@
 <br>
 
 - 완전 이진트리(complete binary tree) : 높이가 k일때, 레벨 1부터 (k-1)까지는 노드가 모두 채워져 있으며, 마지막 레벨 k에서는 왼쪽부터 오른쪽으로 노드가 순서대로 채워져 있는 이진 트리
+
+![image](https://user-images.githubusercontent.com/71310074/145604952-abf33ae1-0eb8-46af-8a34-9783be41985e.png)
 <br>
 
 ### 이진 트리의 표현
@@ -181,6 +187,9 @@ TreeNode* pop() {
 - 레벨이 1인 루트노드부터, 각 노드를 레벨 순으로 검사
 - 동일한 레벨의 경우 좌에서 우로 방문
 - 큐에 있는 노드를 꺼내 방문한 다음, 그 노드의 자식 노드를 큐에 삽입하기를 반복
+	
+	![image](https://user-images.githubusercontent.com/71310074/145605277-4696c42e-508e-4d6c-b986-ee52e1321a86.png)
+
 <br>
 	
   
@@ -454,6 +463,9 @@ int calc_dir_size(TreeNode* root) {
 ## 스레드 이진 트리 (Threaded Binary Tree)
 - 이진 트리의 NULL 링크에 중위 순회 시 선행 노드인 중위 선행지(inorder predecessor) 또는 후속 노드인 중위 후속자(inorder successor)을 저장시켜 놓은 트리
 - 순환 호출 또는 스택의 도움 없이 링크(스레드)를 이용하여 순회를 구현한 트리
+	
+![image](https://user-images.githubusercontent.com/71310074/145605382-d6d454b0-52c7-49b0-b039-c8f4621afdc0.png)
+
 	
 <br>
 	
